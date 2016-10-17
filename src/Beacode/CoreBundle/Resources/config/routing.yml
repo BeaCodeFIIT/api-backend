@@ -1,0 +1,3 @@
+beacode_core_homepage:
+    path:     /
+    defaults: { _controller: BeacodeCoreBundle:Default:index }

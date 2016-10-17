@@ -1,0 +1,4 @@
+services:
+#    beacode_core.example:
+#        class: Beacode\CoreBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
