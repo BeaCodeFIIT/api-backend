@@ -1,0 +1,159 @@
+<?php
+
+namespace Beacode\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Beacon
+ *
+ * @ORM\Table(name="beacon")
+ * @ORM\Entity(repositoryClass="Beacode\CoreBundle\Repository\BeaconRepository")
+ */
+class Beacon
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="exhibit_id", type="integer")
+     */
+    private $exhibitId;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="UUID", type="integer")
+     */
+    private $UUID;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="major", type="integer")
+     */
+    private $major;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="minor", type="integer")
+     */
+    private $minor;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set exhibitId
+     *
+     * @param integer $exhibitId
+     *
+     * @return Beacon
+     */
+    public function setExhibitId($exhibitId)
+    {
+        $this->exhibitId = $exhibitId;
+
+        return $this;
+    }
+
+    /**
+     * Get exhibitId
+     *
+     * @return int
+     */
+    public function getExhibitId()
+    {
+        return $this->exhibitId;
+    }
+
+    /**
+     * Set UUID
+     *
+     * @param integer $UUID
+     *
+     * @return Beacon
+     */
+    public function setUUID($UUID)
+    {
+        $this->UUID = $UUID;
+
+        return $this;
+    }
+
+    /**
+     * Get UUID
+     *
+     * @return int
+     */
+    public function getUUID()
+    {
+        return $this->UUID;
+    }
+
+    /**
+     * Set major
+     *
+     * @param integer $major
+     *
+     * @return Beacon
+     */
+    public function setMajor($major)
+    {
+        $this->major = $major;
+
+        return $this;
+    }
+
+    /**
+     * Get major
+     *
+     * @return int
+     */
+    public function getMajor()
+    {
+        return $this->major;
+    }
+
+    /**
+     * Set minor
+     *
+     * @param integer $minor
+     *
+     * @return Beacon
+     */
+    public function setMinor($minor)
+    {
+        $this->minor = $minor;
+
+        return $this;
+    }
+
+    /**
+     * Get minor
+     *
+     * @return int
+     */
+    public function getMinor()
+    {
+        return $this->minor;
+    }
+}
+
