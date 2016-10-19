@@ -1,0 +1,7 @@
+# global settings
+name: Beacode
+email: ~
+notifications: false
+logging: true
+maxlogs: 10
+ssh_needs_tty: false

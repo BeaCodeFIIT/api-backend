@@ -1,0 +1,29 @@
+#development
+deployment:
+  user: team0616
+  from: ./
+  to: /var/www/html/beacode/
+  excludes:
+    - .idea
+    - var/cache/*
+    - var/logs/*
+    - var/sessions/*
+    - app/config/parameters.yml
+  strategy: targz
+
+releases:
+  enabled: true
+  max: 3
+  symlink: current
+  directory: releases
+
+hosts:
+  - team06-16.studenti.fiit.stuba.sk
+
+tasks:
+  pre-deploy:
+  on-deploy:
+    - shared-folder-task: {sharedFiles: 'app/config/parameters.yml'}
+    - doctrine-schema-update-task
+  post-release:
+  post-deploy:
