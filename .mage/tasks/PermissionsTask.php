@@ -17,17 +17,17 @@ class PermissionsTask extends AbstractTask  {
     }
 
     public function run() {
-        $this->runCommandRemote('sudo chown -R team0616 var/cache/');
-        $this->runCommandRemote('sudo chown -R team0616 var/logs/');
-        $this->runCommandRemote('sudo chown -R team0616 var/sessions/');
+//        $this->runCommandRemote('sudo chown -R team0616 var/cache/');
+//        $this->runCommandRemote('sudo chown -R team0616 var/logs/');
+//        $this->runCommandRemote('sudo chown -R team0616 var/sessions/');
 
-        $this->runCommandRemote('sudo chgrp -R www-data var/cache/');
-        $this->runCommandRemote('sudo chgrp -R www-data var/logs/');
-        $this->runCommandRemote('sudo chgrp -R www-data var/sessions/');
+//        $this->runCommandRemote('sudo chgrp -R www-data var/cache/');
+//        $this->runCommandRemote('sudo chgrp -R www-data var/logs/');
+//        $this->runCommandRemote('sudo chgrp -R www-data var/sessions/');
 
-        $this->runCommandRemote('sudo chmod -R 775 var/cache/');
-        $this->runCommandRemote('sudo chmod -R 775 var/logs/');
-        $this->runCommandRemote('sudo chmod -R 775 var/sessions/');
+        $this->runCommandRemote('chmod -R 777 var/cache/');
+        $this->runCommandRemote('chmod -R 777 var/logs/');
+        $this->runCommandRemote('chmod -R 777 var/sessions/');
 
         return true;
     }

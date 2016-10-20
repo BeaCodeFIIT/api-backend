@@ -25,5 +25,8 @@ tasks:
   on-deploy:
     - shared-folder-task: {sharedFiles: 'app/config/parameters.yml'}
     - doctrine-schema-update-task
+    - cache-clear-task: {env: dev}
+    - cache-clear-task: {env: prod}
+    - permissions-task
   post-release:
   post-deploy:
