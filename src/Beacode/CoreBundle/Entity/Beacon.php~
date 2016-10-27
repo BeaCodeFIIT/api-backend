@@ -162,28 +162,5 @@ class Beacon
     {
         return $this->minor;
     }
-
-    /**
-     * Set systemCreated
-     *
-     * @param \DateTime $systemCreated
-     *
-     * @return Beacon
-     */
-    public function setSystemCreated($systemCreated)
-    {
-        $this->systemCreated = $systemCreated;
-
-        return $this;
-    }
-
-    /**
-     * Get systemCreated
-     *
-     * @return \DateTime
-     */
-    public function getSystemCreated()
-    {
-        return $this->systemCreated;
-    }
 }
+
