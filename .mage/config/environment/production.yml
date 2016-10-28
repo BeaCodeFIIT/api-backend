@@ -1,8 +1,8 @@
-#development
+#production
 deployment:
   user: team0616
   from: ./
-  to: /var/www/html/beacode_dev/
+  to: /var/www/html/beacode/
   excludes:
     - .idea
     - var/cache/*

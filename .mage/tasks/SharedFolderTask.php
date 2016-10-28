@@ -19,7 +19,8 @@ class SharedFolderTask extends AbstractTask  {
 
     public function run() {
         $sharedFiles = $this->getParameter('sharedFiles', false);
-        if ($sharedFiles) {
+
+        if ($sharedFiles !== false) {
             $folder = $this->getConfig()->deployment('to');
             foreach (explode(",", $sharedFiles) as $sf) {
                 $this->runCommandRemote('ln -s '.$folder.'shared/'.$sf.' '.$sf);
