@@ -18,14 +18,25 @@ class ExhibitRepository extends EntityRepository {
      * @return Exhibit|int|null|object
      */
     public function createExhibit($data) {
-        $object = $this->getExhibit($data);
-        if (!empty($object)) return 0;
-
         $object = new Exhibit();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getExhibitObjectFromData($object, $data);
 
         $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return Exhibit|int|null|object
+     */
+    public function createIfNotExistExhibit($data) {
+        $object = $this->getExhibit($data);
+        if (empty($object)) {
+            $object = $this->createExhibit($data);
+        }
 
         return $object;
     }

@@ -18,14 +18,25 @@ class BeaconRepository extends EntityRepository {
      * @return Beacon|int|null|object
      */
     public function createBeacon($data) {
-        $object = $this->getBeacon($data);
-        if (!empty($object)) return 0;
-
         $object = new Beacon();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getBeaconObjectFromData($object, $data);
 
         $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return Beacon|int|null|object
+     */
+    public function createIfNotExistBeacon($data) {
+        $object = $this->getBeacon($data);
+        if (empty($object)) {
+            $object = $this->createBeacon($data);
+        }
 
         return $object;
     }

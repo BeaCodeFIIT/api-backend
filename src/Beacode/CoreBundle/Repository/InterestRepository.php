@@ -18,14 +18,25 @@ class InterestRepository extends EntityRepository {
      * @return Interest|int|null|object
      */
     public function createInterest($data) {
-        $object = $this->getInterest($data);
-        if (!empty($object)) return 0;
-
         $object = new Interest();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getInterestObjectFromData($object, $data);
 
         $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return Interest|int|null|object
+     */
+    public function createIfNotExistInterest($data) {
+        $object = $this->getInterest($data);
+        if (empty($object)) {
+            $object = $this->createInterest($data);
+        }
 
         return $object;
     }

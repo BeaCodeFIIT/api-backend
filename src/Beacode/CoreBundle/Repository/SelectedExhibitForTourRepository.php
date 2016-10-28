@@ -18,14 +18,25 @@ class SelectedExhibitForTourRepository extends EntityRepository {
      * @return SelectedExhibitForTour|int|null|object
      */
     public function createSelectedExhibitForTour($data) {
-        $object = $this->getSelectedExhibitForTour($data);
-        if (!empty($object)) return 0;
-
         $object = new SelectedExhibitForTour();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getSelectedExhibitForTourObjectFromData($object, $data);
 
         $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return SelectedExhibitForTour|int|null|object
+     */
+    public function createIfNotExistSelectedExhibitForTour($data) {
+        $object = $this->getSelectedExhibitForTour($data);
+        if (empty($object)) {
+            $object = $this->createSelectedExhibitForTour($data);
+        }
 
         return $object;
     }
@@ -94,6 +105,8 @@ class SelectedExhibitForTourRepository extends EntityRepository {
 
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
+        } else if ((!empty($data['userId'])) && (!empty($data['exhibitId']))) {
+            $object = $this->findOneBy(['userId'=>$data['userId'], 'exhibitId'=>$data['exhibitId']]);
         }
 
         return $object;

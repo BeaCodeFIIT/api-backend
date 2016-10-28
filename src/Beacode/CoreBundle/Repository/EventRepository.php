@@ -18,14 +18,25 @@ class EventRepository extends EntityRepository {
      * @return Event|int|null|object
      */
     public function createEvent($data) {
-        $object = $this->getEvent($data);
-        if (!empty($object)) return 0;
-
         $object = new Event();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getEventObjectFromData($object, $data);
 
         $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return Event|int|null|object
+     */
+    public function createIfNotExistEvent($data) {
+        $object = $this->getEvent($data);
+        if (empty($object)) {
+            $object = $this->createEvent($data);
+        }
 
         return $object;
     }

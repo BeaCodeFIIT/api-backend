@@ -18,14 +18,25 @@ class StarredEventRepository extends EntityRepository {
      * @return StarredEvent|int|null|object
      */
     public function createStarredEvent($data) {
-        $object = $this->getStarredEvent($data);
-        if (!empty($object)) return 0;
-
         $object = new StarredEvent();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getStarredEventObjectFromData($object, $data);
 
         $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return StarredEvent|int|null|object
+     */
+    public function createIfNotExistStarredEvent($data) {
+        $object = $this->getStarredEvent($data);
+        if (empty($object)) {
+            $object = $this->createStarredEvent($data);
+        }
 
         return $object;
     }
@@ -94,6 +105,8 @@ class StarredEventRepository extends EntityRepository {
 
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
+        } else if ((!empty($data['userId'])) && (!empty($data['eventId']))) {
+            $object = $this->findOneBy(['userId'=>$data['userId'], 'eventId'=>$data['eventId']]);
         }
 
         return $object;
