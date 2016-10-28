@@ -1,0 +1,4 @@
+services:
+#    beacode_admin_web.example:
+#        class: Beacode\AdminWebBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
