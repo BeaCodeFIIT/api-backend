@@ -15,10 +15,14 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+
             new Beacode\CoreBundle\BeacodeCoreBundle(),
             new Beacode\AppAndroidBundle\BeacodeAppAndroidBundle(),
             new Beacode\AppIOSBundle\BeacodeAppIOSBundle(),
             new Beacode\AdminWebBundle\BeacodeAdminWebBundle(),
+            new Beacode\AppBundle\BeacodeAppBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

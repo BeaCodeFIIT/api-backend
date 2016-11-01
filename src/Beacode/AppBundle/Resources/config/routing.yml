@@ -1,0 +1,20 @@
+beacode_app_api_events_show:
+    path:     /api/events/show/{namePart}
+    defaults: { _controller: BeacodeAppBundle:Core:showEvents }
+    methods: [GET]
+
+beacode_app_api_starred_events_show:
+    path:     /api/starred-events/show
+    defaults: { _controller: BeacodeAppBundle:Core:showStarredEvents }
+    methods: [GET]
+
+beacode_app_api_exhibits_show:
+    path:     /api/exhibits/show/{eventId}
+    defaults: { _controller: BeacodeAppBundle:Core:showExhibits }
+    methods: [GET]
+
+beacode_app_api_interests_show:
+    path:     /api/interests/show
+    defaults: { _controller: BeacodeAppBundle:Core:showInterests }
+    methods: [GET]
+
