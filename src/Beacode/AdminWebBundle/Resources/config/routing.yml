@@ -1,0 +1,10 @@
+beacode_api_admin_web_created_events_show:
+    path:     /api/admin-web/created-events/show
+    defaults: { _controller: BeacodeAdminWebBundle:Core:showCreatedEvents }
+    methods: [GET]
+
+beacode_api_admin_web_exhibits_show:
+    path:     /api/admin-web/exhibits/show/{eventId}
+    defaults: { _controller: BeacodeAdminWebBundle:Core:showExhibits }
+    methods: [GET]
+

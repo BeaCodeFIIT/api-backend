@@ -8,7 +8,6 @@
 
 namespace Beacode\AppBundle\Controller;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -16,27 +15,23 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
-     * @param $namePart
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
      *     section="App",
-     *     description="Show all existing events which start with given text",
-     *     requirements={
-     *         {
-     *             "name"="namePart",
-     *             "dataType"="string",
-     *             "requirement"="",
-     *             "description"="start of name of event"
-     *         }
+     *     description="Show all existing events which start with given text. Sorted by name ASC.",
+     *     parameters={
+     *         {"name"="namePart", "dataType"="string", "required"=false, "description"="start of name of event"}
      *     },
      *     statusCodes={
      *         200="Returned when successful",
      *     }
      * )
      */
-    public function showEventsAction($namePart) {
-        $data = ['namePart'=>$namePart];
+    public function showEventsAction(Request $request) {
+        $postData = $this->getPostData($request);
+        $data = ['namePart'=>$postData['namePart'] ?? null];
         $retval = $this->getRepo('Event')->showEvents($data);
         return $this->getSerializedResponse($retval);
     }
@@ -47,7 +42,7 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
      *
      * @ApiDoc(
      *     section="App",
-     *     description="Show events which starred logged in user",
+     *     description="Show events which were starred by logged in user. Sorted by systemCreated DESC.",
      *     statusCodes={
      *         200="Returned when successful",
      *     }
@@ -66,15 +61,10 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
      *
      * @ApiDoc(
      *     section="App",
-     *     description="Show all exhibits which belongs to given event",
+     *     description="Show all exhibits which belongs to given event. Sorted by name ASC.",
      *     requirements={
-     *          {
-     *              "name"="eventId",
-     *              "dataType"="integer",
-     *              "requirement"="",
-     *              "description"="id of event"
-     *          }
-     *      },
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
+     *     },
      *     statusCodes={
      *         200="Returned when successful",
      *     }
@@ -92,7 +82,7 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
      *
      * @ApiDoc(
      *     section="App",
-     *     description="Show all interests which belongs to logged in user",
+     *     description="Show all interests which belongs to logged in user. Sorted by systemCreated DESC.",
      *     statusCodes={
      *         200="Returned when successful",
      *     }

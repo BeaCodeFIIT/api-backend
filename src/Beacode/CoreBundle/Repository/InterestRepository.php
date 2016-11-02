@@ -158,13 +158,13 @@ class InterestRepository extends CoreRepository {
      * @return array
      */
     public function showInterests($data) {
-        $interestObjectArray = $this->findBy(['userId'=>$data['userId']]);
+        $interestObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
 
         $interestDataArray = [];
         foreach ($interestObjectArray as $interestObject) {
             $interestDataArray[] = $this->getInterestDataFromObject($interestObject, 1);
         }
 
-        return $interestDataArray;
+        return ['result'=>1, 'data'=>$interestDataArray];
     }
 }

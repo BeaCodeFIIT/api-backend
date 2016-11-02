@@ -146,8 +146,8 @@ class EventRepository extends CoreRepository {
             $data['name'] = $object->getName();
         }
         if (in_array(3, $whichData)) {
-            $data['start'] = $object->getStart();
-            $data['end'] = $object->getEnd();
+            $data['start'] = $object->getStart()->format('d.m.Y H:i:s');
+            $data['end'] = $object->getEnd()->format('d.m.Y H:i:s');
         }
         if (in_array(4, $whichData)) {
             $data['location'] = $object->getLocation();
@@ -169,10 +169,13 @@ class EventRepository extends CoreRepository {
      */
     public function showEvents($data) {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('i')
-            ->from('BeacodeCoreBundle:Event', 'i')
-            ->where('i.name LIKE ?1')
-            ->setParameter(1, $data['namePart'].'%');
+        $qb->select('i');
+        $qb->from('BeacodeCoreBundle:Event', 'i');
+        if (!empty($data['namePart'])) {
+            $qb->where('i.name LIKE ?1');
+            $qb->setParameter(1, $data['namePart'] . '%');
+        }
+        $qb->orderBy('i.name', 'ASC');
         $eventObjectArray = $qb->getQuery()->getResult();
 
         $eventDataArray = [];
@@ -180,6 +183,22 @@ class EventRepository extends CoreRepository {
             $eventDataArray[] = $this->getEventDataFromObject($eventObject, 1);
         }
 
-        return $eventDataArray;
+        return ['result'=>1, 'data'=>$eventDataArray];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function showCreatedEvents($data) {
+        $eventObjectArray = $this->findBy(['creatorId'=>$data['creatorId']], ['name'=>'ASC']);
+
+        $eventDataArray = [];
+        foreach ($eventObjectArray as $eventObject) {
+            $eventDataArray[] = $this->getEventDataFromObject($eventObject, 1);
+        }
+
+        return ['result'=>1, 'data'=>$eventDataArray];
     }
 }

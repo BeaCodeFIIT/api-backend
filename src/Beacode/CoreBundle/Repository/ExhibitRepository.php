@@ -162,13 +162,13 @@ class ExhibitRepository extends CoreRepository {
      * @return array
      */
     public function showExhibits($data) {
-        $exhibitObjectArray = $this->findBy(['eventId'=>$data['eventId']]);
+        $exhibitObjectArray = $this->findBy(['eventId'=>$data['eventId']], ['name'=>'ASC']);
 
         $exhibitDataArray = [];
         foreach ($exhibitObjectArray as $exhibitObject) {
             $exhibitDataArray[] = $this->getExhibitDataFromObject($exhibitObject, 1);
         }
 
-        return $exhibitDataArray;
+        return ['result'=>1, 'data'=>$exhibitDataArray];
     }
 }
