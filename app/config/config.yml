@@ -68,4 +68,13 @@ swiftmailer:
     spool:     { type: memory }
 
 # API documentation generator
-nelmio_api_doc: ~
+nelmio_api_doc:
+    sandbox:
+        enabled: true
+        accept_type: "application/json"
+        body_format:
+            formats: [ "json" ]
+            default_format: "json"
+        request_format:
+            formats:
+                json: "application/json"

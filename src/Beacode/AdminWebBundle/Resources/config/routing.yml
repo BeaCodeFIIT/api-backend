@@ -8,3 +8,13 @@ beacode_api_admin_web_exhibits_show:
     defaults: { _controller: BeacodeAdminWebBundle:Core:showExhibits }
     methods: [GET]
 
+beacode_api_admin_web_event_save:
+    path:     /api/admin-web/event/save
+    defaults: { _controller: BeacodeAdminWebBundle:Core:saveEvent }
+    methods: [POST]
+
+beacode_api_admin_web_exhibit_save:
+    path:     /api/admin-web/exhibit/save/{eventId}
+    defaults: { _controller: BeacodeAdminWebBundle:Core:saveExhibit }
+    methods: [POST]
+

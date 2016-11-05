@@ -30,8 +30,7 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
      * )
      */
     public function showEventsAction(Request $request) {
-        $postData = $this->getPostData($request);
-        $data = ['namePart'=>$postData['namePart'] ?? null];
+        $data = $this->getPostData($request);
         $retval = $this->getRepo('Event')->showEvents($data);
         return $this->getSerializedResponse($retval);
     }

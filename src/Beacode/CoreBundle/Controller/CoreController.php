@@ -21,8 +21,9 @@ class CoreController extends Controller {
      * @return mixed
      */
     protected function getPostData(Request $request) {
-        $data = $request->request->all();
-        if (empty($data)) $data = json_decode($request->getContent(), true);
+        $data1 = $request->request->all();
+        $data2 = json_decode($request->getContent(), true);
+        $data = array_merge((array)$data1, (array)$data2);
         return $data;
     }
 

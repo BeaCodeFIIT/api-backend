@@ -122,6 +122,7 @@ class EventRepository extends CoreRepository {
         if (!empty($data['location'])) $object->setLocation($data['location']);
         if (!empty($data['description'])) $object->setDescription($data['description']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
+        if (!empty($data['creatorId'])) $object->setCreatorId($data['creatorId']);
 
         $this->_em->persist($object);
 
@@ -137,6 +138,7 @@ class EventRepository extends CoreRepository {
     public function getEventDataFromObject(Event $object, $forFunction) {
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 2, 3, 4, 5];
+        else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -154,6 +156,9 @@ class EventRepository extends CoreRepository {
         }
         if (in_array(5, $whichData)) {
             $data['description'] = $object->getDescription();
+        }
+        if (in_array(6, $whichData)) {
+            $data['creatorId'] = $object->getCreatorId();
         }
 
         return $data;
@@ -200,5 +205,19 @@ class EventRepository extends CoreRepository {
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function saveEvent($data) {
+        $data['start'] = new \DateTime($data['start']);
+        $data['end'] = new \DateTime($data['end']);
+        $eventObject = $this->createEvent($data);
+        $eventData = $this->getEventDataFromObject($eventObject, 2);
+
+        return ['result'=>1, 'data'=>$eventData];
     }
 }

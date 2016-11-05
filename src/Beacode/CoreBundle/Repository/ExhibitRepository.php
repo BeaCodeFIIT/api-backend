@@ -135,6 +135,7 @@ class ExhibitRepository extends CoreRepository {
     public function getExhibitDataFromObject(Exhibit $object, $forFunction) {
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 3, 4];
+        else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -170,5 +171,17 @@ class ExhibitRepository extends CoreRepository {
         }
 
         return ['result'=>1, 'data'=>$exhibitDataArray];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function saveExhibit($data) {
+        $exhibitObject = $this->createExhibit($data);
+        $exhibitData = $this->getExhibitDataFromObject($exhibitObject, 2);
+
+        return ['result'=>1, 'data'=>$exhibitData];
     }
 }
