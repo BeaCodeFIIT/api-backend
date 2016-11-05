@@ -32,7 +32,10 @@ class CoreController extends Controller {
      * @return Response
      */
     protected function getSerializedResponse($data) {
-        return new Response(json_encode($data));
+        $content = json_encode($data);
+        $status = 200;
+        $headers = ['content-type'=>'application/json'];
+        return new Response($content, $status, $headers);
     }
 
     /**
