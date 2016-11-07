@@ -38,11 +38,11 @@ class CorsListener implements EventSubscriberInterface {
 
     public function onKernelResponse(FilterResponseEvent $event) {
         //don't do anything if it's not the master request
-//        if (!$event->isMasterRequest()) return;
+        if (!$event->isMasterRequest()) return;
 
-//        $response = $event->getResponse();
-//        $response->headers->set('Access-Control-Allow-Origin', '*');
-//        $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH');
-//        $response->headers->set('Access-Control-Allow-Headers', 'X-Header-One,X-Header-Two,Content-Type');
+        $response = $event->getResponse();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type');
     }
 }

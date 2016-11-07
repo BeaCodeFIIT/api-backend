@@ -19,6 +19,7 @@ releases:
 
 hosts:
   - team06-16.studenti.fiit.stuba.sk
+#  - 147.175.149.218
 
 tasks:
   pre-deploy:
