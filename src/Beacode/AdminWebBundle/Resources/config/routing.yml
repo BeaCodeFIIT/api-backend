@@ -1,20 +1,20 @@
 beacode_api_admin_web_created_events_show:
     path:     /api/admin-web/created-events/show
     defaults: { _controller: BeacodeAdminWebBundle:Core:showCreatedEvents }
-    methods: [GET]
+    methods: [GET, OPTIONS]
 
 beacode_api_admin_web_exhibits_show:
     path:     /api/admin-web/exhibits/show/{eventId}
     defaults: { _controller: BeacodeAdminWebBundle:Core:showExhibits }
-    methods: [GET]
+    methods: [GET, OPTIONS]
 
 beacode_api_admin_web_event_save:
     path:     /api/admin-web/event/save
     defaults: { _controller: BeacodeAdminWebBundle:Core:saveEvent }
-    methods: [POST]
+    methods: [POST, OPTIONS]
 
 beacode_api_admin_web_exhibit_save:
     path:     /api/admin-web/exhibit/save/{eventId}
     defaults: { _controller: BeacodeAdminWebBundle:Core:saveExhibit }
-    methods: [POST]
+    methods: [POST, OPTIONS]
 

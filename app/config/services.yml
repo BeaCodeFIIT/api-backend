@@ -4,6 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.on_kernel_request_listener:
+        class: Beacode\CoreBundle\Classes\CorsListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+    app.on_kernel_response_listener:
+        class: Beacode\CoreBundle\Classes\CorsListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.response }
+
