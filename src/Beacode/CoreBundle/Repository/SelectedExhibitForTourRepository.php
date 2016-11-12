@@ -49,7 +49,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     public function editSelectedExhibitForTour($data, SelectedExhibitForTour $object=null) {
         if (empty($object)) {
             $object = $this->getSelectedExhibitForTour($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $object = $this->getSelectedExhibitForTourObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     public function removeSelectedExhibitForTour($data, SelectedExhibitForTour $object=null) {
         if (empty($object)) {
             $object = $this->getSelectedExhibitForTour($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -97,17 +97,16 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
-     * @return null|object
+     * @return int|null|object
      */
     public function getSelectedExhibitForTour($data) {
-        $object = null;
-
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
         } else if ((!empty($data['userId'])) && (!empty($data['exhibitId']))) {
             $object = $this->findOneBy(['userId'=>$data['userId'], 'exhibitId'=>$data['exhibitId']]);
         }
 
+        if (empty($object)) return 0;
         return $object;
     }
 
@@ -131,9 +130,15 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param SelectedExhibitForTour $object
      * @param $forFunction
-     * @return array
+     * @param array $dataIn
+     * @return array|int
      */
-    public function getSelectedExhibitForTourDataFromObject(SelectedExhibitForTour $object, $forFunction) {
+    public function getSelectedExhibitForTourDataFromObject(SelectedExhibitForTour $object=null, $forFunction, $dataIn=[]) {
+        if (empty($object)) {
+            $object = $this->getSelectedExhibitForTour($dataIn);
+            if (is_int($object)) return $object;
+        }
+
         $whichData = [];
         if ($forFunction == 1) $whichData = [1];
 

@@ -14,6 +14,10 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
 
     /**
+     * ### Response ###
+     *
+     * {}
+     *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -32,6 +36,10 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
     }
 
     /**
+     * ### Response ###
+     *
+     * {}
+     *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -54,6 +62,14 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
     }
 
     /**
+     * ### Request ###
+     *
+     * {}
+     *
+     * ### Response ###
+     *
+     * {}
+     *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -81,6 +97,14 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
     }
 
     /**
+     * ### Request ###
+     *
+     * {}
+     *
+     * ### Response ###
+     *
+     * {}
+     *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request
      * @param $eventId

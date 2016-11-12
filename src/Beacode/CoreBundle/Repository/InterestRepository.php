@@ -49,7 +49,7 @@ class InterestRepository extends CoreRepository {
     public function editInterest($data, Interest $object=null) {
         if (empty($object)) {
             $object = $this->getInterest($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $object = $this->getInterestObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class InterestRepository extends CoreRepository {
     public function removeInterest($data, Interest $object=null) {
         if (empty($object)) {
             $object = $this->getInterest($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -97,15 +97,14 @@ class InterestRepository extends CoreRepository {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
-     * @return null|object
+     * @return int|null|object
      */
     public function getInterest($data) {
-        $object = null;
-
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
         }
 
+        if (empty($object)) return 0;
         return $object;
     }
 
@@ -129,9 +128,15 @@ class InterestRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Interest $object
      * @param $forFunction
-     * @return array
+     * @param array $dataIn
+     * @return array|int
      */
-    public function getInterestDataFromObject(Interest $object, $forFunction) {
+    public function getInterestDataFromObject(Interest $object=null, $forFunction, $dataIn=[]) {
+        if (empty($object)) {
+            $object = $this->getInterest($dataIn);
+            if (is_int($object)) return $object;
+        }
+
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 3];
 

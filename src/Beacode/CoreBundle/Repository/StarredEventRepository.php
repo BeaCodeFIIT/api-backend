@@ -49,7 +49,7 @@ class StarredEventRepository extends CoreRepository {
     public function editStarredEvent($data, StarredEvent $object=null) {
         if (empty($object)) {
             $object = $this->getStarredEvent($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $object = $this->getStarredEventObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class StarredEventRepository extends CoreRepository {
     public function removeStarredEvent($data, StarredEvent $object=null) {
         if (empty($object)) {
             $object = $this->getStarredEvent($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -97,17 +97,16 @@ class StarredEventRepository extends CoreRepository {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
-     * @return null|object
+     * @return int|null|object
      */
     public function getStarredEvent($data) {
-        $object = null;
-
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
         } else if ((!empty($data['userId'])) && (!empty($data['eventId']))) {
             $object = $this->findOneBy(['userId'=>$data['userId'], 'eventId'=>$data['eventId']]);
         }
 
+        if (empty($object)) return 0;
         return $object;
     }
 
@@ -131,11 +130,17 @@ class StarredEventRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param StarredEvent $object
      * @param $forFunction
-     * @return array
+     * @param array $dataIn
+     * @return array|int
      */
-    public function getStarredEventDataFromObject(StarredEvent $object, $forFunction) {
+    public function getStarredEventDataFromObject(StarredEvent $object=null, $forFunction, $dataIn=[]) {
+        if (empty($object)) {
+            $object = $this->getStarredEvent($dataIn);
+            if (is_int($object)) return $object;
+        }
+
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1];
+        if ($forFunction == 1) $whichData = [3];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -143,8 +148,25 @@ class StarredEventRepository extends CoreRepository {
         }
         if (in_array(2, $whichData)) {
             $data['userId'] = $object->getUserId();
+        }
+        if (in_array(3, $whichData)) {
             $data['eventId'] = $object->getEventId();
         }
+
+        return $data;
+    }
+
+    //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    private function getEventDataFromId($data) {
+        $eventData = $this->getRepo('Event')->getEventDataFromObject(null, 1, ['id'=>$data['eventId']]);
+        $data['event'] = (!is_int($eventData) ? $eventData : null);
+        unset($data['eventId']);
 
         return $data;
     }
@@ -160,12 +182,12 @@ class StarredEventRepository extends CoreRepository {
     public function showStarredEvents($data) {
         $starredEventObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
 
-        $eventDataArray = [];
-        foreach ($starredEventObjectArray as $starredEventObject) {
-            $eventObject = $this->getRepo('Event')->findOneBy(['id'=>$starredEventObject->getEventId()]);
-            $eventDataArray[] = $this->getRepo('Event')->getEventDataFromObject($eventObject, 1);
+        $starredEventDataArray = [];
+        foreach ($starredEventObjectArray as $key=>$starredEventObject) {
+            $starredEventDataArray[$key] = $this->getStarredEventDataFromObject($starredEventObject, 1);
+            $starredEventDataArray[$key] = $this->getEventDataFromId($starredEventDataArray[$key]);
         }
 
-        return ['result'=>1, 'data'=>$eventDataArray];
+        return ['result'=>1, 'data'=>$starredEventDataArray];
     }
 }

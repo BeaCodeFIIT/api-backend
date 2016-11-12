@@ -49,7 +49,7 @@ class BeaconRepository extends CoreRepository {
     public function editBeacon($data, Beacon $object=null) {
         if (empty($object)) {
             $object = $this->getBeacon($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $object = $this->getBeaconObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class BeaconRepository extends CoreRepository {
     public function removeBeacon($data, Beacon $object=null) {
         if (empty($object)) {
             $object = $this->getBeacon($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -97,15 +97,14 @@ class BeaconRepository extends CoreRepository {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
-     * @return null|object
+     * @return int|null|object
      */
     public function getBeacon($data) {
-        $object = null;
-
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
         }
 
+        if (empty($object)) return 0;
         return $object;
     }
 
@@ -131,9 +130,15 @@ class BeaconRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Beacon $object
      * @param $forFunction
-     * @return array
+     * @param array $dataIn
+     * @return array|int
      */
-    public function getBeaconDataFromObject(Beacon $object, $forFunction) {
+    public function getBeaconDataFromObject(Beacon $object=null, $forFunction, $dataIn=[]) {
+        if (empty($object)) {
+            $object = $this->getBeacon($dataIn);
+            if (is_int($object)) return $object;
+        }
+
         $whichData = [];
         if ($forFunction == 1) $whichData = [1];
 

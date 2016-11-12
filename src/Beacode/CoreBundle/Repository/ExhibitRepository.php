@@ -49,7 +49,7 @@ class ExhibitRepository extends CoreRepository {
     public function editExhibit($data, Exhibit $object=null) {
         if (empty($object)) {
             $object = $this->getExhibit($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $object = $this->getExhibitObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class ExhibitRepository extends CoreRepository {
     public function removeExhibit($data, Exhibit $object=null) {
         if (empty($object)) {
             $object = $this->getExhibit($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -97,15 +97,14 @@ class ExhibitRepository extends CoreRepository {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
-     * @return null|object
+     * @return int|null|object
      */
     public function getExhibit($data) {
-        $object = null;
-
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
         }
 
+        if (empty($object)) return 0;
         return $object;
     }
 
@@ -130,9 +129,15 @@ class ExhibitRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Exhibit $object
      * @param $forFunction
-     * @return array
+     * @param array $dataIn
+     * @return array|int
      */
-    public function getExhibitDataFromObject(Exhibit $object, $forFunction) {
+    public function getExhibitDataFromObject(Exhibit $object=null, $forFunction, $dataIn=[]) {
+        if (empty($object)) {
+            $object = $this->getExhibit($dataIn);
+            if (is_int($object)) return $object;
+        }
+
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 3, 4];
         else if ($forFunction == 2) $whichData = [1];

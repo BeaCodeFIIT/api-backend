@@ -49,7 +49,7 @@ class EventRepository extends CoreRepository {
     public function editEvent($data, Event $object=null) {
         if (empty($object)) {
             $object = $this->getEvent($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $object = $this->getEventObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class EventRepository extends CoreRepository {
     public function removeEvent($data, Event $object=null) {
         if (empty($object)) {
             $object = $this->getEvent($data);
-            if (empty($object)) return 0;
+            if (is_int($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -97,15 +97,14 @@ class EventRepository extends CoreRepository {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
-     * @return null|object
+     * @return int|null|object
      */
     public function getEvent($data) {
-        $object = null;
-
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
         }
 
+        if (empty($object)) return 0;
         return $object;
     }
 
@@ -133,9 +132,15 @@ class EventRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Event $object
      * @param $forFunction
-     * @return array
+     * @param array $dataIn
+     * @return array|int
      */
-    public function getEventDataFromObject(Event $object, $forFunction) {
+    public function getEventDataFromObject(Event $object=null, $forFunction, $dataIn=[]) {
+        if (empty($object)) {
+            $object = $this->getEvent($dataIn);
+            if (is_int($object)) return $object;
+        }
+
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 2, 3, 4, 5];
         else if ($forFunction == 2) $whichData = [1];
