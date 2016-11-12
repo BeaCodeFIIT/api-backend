@@ -45,6 +45,8 @@ class CoreController extends Controller {
      * @return mixed
      */
     protected function getRepo($entity) {
-        return $this->getDoctrine()->getManager()->getRepository('BeacodeCoreBundle:'.$entity);
+        $bundle = 'BeacodeCoreBundle:';
+        if ($entity == 'User') $bundle = 'BeacodeUserBundle:';
+        return $this->getDoctrine()->getManager()->getRepository($bundle.$entity);
     }
 }

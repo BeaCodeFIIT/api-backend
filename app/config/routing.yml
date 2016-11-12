@@ -1,3 +1,7 @@
+beacode_user:
+    resource: "@BeacodeUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc

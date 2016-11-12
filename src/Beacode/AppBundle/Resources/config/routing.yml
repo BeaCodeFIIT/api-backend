@@ -18,3 +18,8 @@ beacode_api_app_interests_show:
     defaults: { _controller: BeacodeAppBundle:Core:showInterests }
     methods: [GET]
 
+beacode_api_app_logged_in_user_show:
+    path:     /api/app/logged-in-user/show
+    defaults: { _controller: BeacodeAppBundle:Core:showLoggedInUser }
+    methods: [GET]
+

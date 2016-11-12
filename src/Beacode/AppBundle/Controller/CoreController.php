@@ -92,4 +92,22 @@ class CoreController extends \Beacode\CoreBundle\Controller\CoreController {
         $retval = $this->getRepo('Interest')->showInterests($data);
         return $this->getSerializedResponse($retval);
     }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *     section="App",
+     *     description="Show logged in user.",
+     *     statusCodes={
+     *         200="Returned when successful",
+     *     }
+     * )
+     */
+    public function showLoggedInUserAction() {
+        $data = ['id'=>5];
+        $retval = $this->getRepo('User')->showLoggedInUser($data);
+        return $this->getSerializedResponse($retval);
+    }
 }

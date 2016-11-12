@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Beacode\AppIOSBundle\BeacodeAppIOSBundle(),
             new Beacode\AdminWebBundle\BeacodeAdminWebBundle(),
             new Beacode\AppBundle\BeacodeAppBundle(),
+            new Beacode\UserBundle\BeacodeUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
