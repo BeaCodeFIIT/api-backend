@@ -15,25 +15,30 @@ class UserRepository extends CoreRepository  {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
-     * @return null|object
+     * @return int|null|object
      */
     public function getUser($data) {
-        $object = null;
-
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
         }
 
+        if (empty($object)) return 0;
         return $object;
     }
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
-     * @param User $object
+     * @param User|null $object
      * @param $forFunction
-     * @return array
+     * @param array $dataIn
+     * @return array|User|int|null|object
      */
-    public function getUserDataFromObject(User $object, $forFunction) {
+    public function getUserDataFromObject(User $object=null, $forFunction, $dataIn=[]) {
+        if (empty($object)) {
+            $object = $this->getUser($dataIn);
+            if (is_int($object)) return $object;
+        }
+
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 2];
 
@@ -58,9 +63,8 @@ class UserRepository extends CoreRepository  {
      * @return array
      */
     public function showLoggedInUser($data) {
-        $userObject = $this->getUser($data);
-        if (empty($userObject)) return ['result'=>0];
-        $userData = $this->getUserDataFromObject($userObject, 1);
+        $userData = $this->getUserDataFromObject(null, 1, $data);
+        if (is_int($userData)) return ['result'=>$userData];
 
         return ['result'=>1, 'data'=>$userData];
     }
