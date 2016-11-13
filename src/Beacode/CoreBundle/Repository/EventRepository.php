@@ -118,7 +118,7 @@ class EventRepository extends CoreRepository {
         if (!empty($data['name'])) $object->setName($data['name']);
         if (!empty($data['start'])) $object->setStart($data['start']);
         if (!empty($data['end'])) $object->setEnd($data['end']);
-        if (!empty($data['location'])) $object->setLocation($data['location']);
+        if (!empty($data['locationId'])) $object->setLocationId($data['locationId']);
         if (!empty($data['description'])) $object->setDescription($data['description']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
         if (!empty($data['creatorId'])) $object->setCreatorId($data['creatorId']);
@@ -157,7 +157,7 @@ class EventRepository extends CoreRepository {
             $data['end'] = $object->getEnd()->format('d.m.Y H:i:s');
         }
         if (in_array(4, $whichData)) {
-            $data['location'] = $object->getLocation();
+            $data['locationId'] = $object->getLocationId();
         }
         if (in_array(5, $whichData)) {
             $data['description'] = $object->getDescription();
@@ -165,6 +165,16 @@ class EventRepository extends CoreRepository {
         if (in_array(6, $whichData)) {
             $data['creatorId'] = $object->getCreatorId();
         }
+
+        return $data;
+    }
+
+    //******************************************************************************************************************
+
+    private function getLocationDataFromId($data) {
+        $locationData = $this->getRepo('Location')->getLocationDataFromObject(null, 1, ['id'=>$data['locationId']]);
+        $data['location'] = (!is_int($locationData) ? $locationData : null);
+        unset($data['locationId']);
 
         return $data;
     }
@@ -189,8 +199,9 @@ class EventRepository extends CoreRepository {
         $eventObjectArray = $qb->getQuery()->getResult();
 
         $eventDataArray = [];
-        foreach ($eventObjectArray as $eventObject) {
-            $eventDataArray[] = $this->getEventDataFromObject($eventObject, 1);
+        foreach ($eventObjectArray as $key=>$eventObject) {
+            $eventDataArray[$key] = $this->getEventDataFromObject($eventObject, 1);
+            $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
@@ -205,8 +216,9 @@ class EventRepository extends CoreRepository {
         $eventObjectArray = $this->findBy(['creatorId'=>$data['creatorId']], ['name'=>'ASC']);
 
         $eventDataArray = [];
-        foreach ($eventObjectArray as $eventObject) {
-            $eventDataArray[] = $this->getEventDataFromObject($eventObject, 1);
+        foreach ($eventObjectArray as $key=>$eventObject) {
+            $eventDataArray[$key] = $this->getEventDataFromObject($eventObject, 1);
+            $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];

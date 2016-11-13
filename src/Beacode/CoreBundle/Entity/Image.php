@@ -5,12 +5,12 @@ namespace Beacode\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Event
+ * Image
  *
- * @ORM\Table(name="event")
- * @ORM\Entity(repositoryClass="Beacode\CoreBundle\Repository\EventRepository")
+ * @ORM\Table(name="image")
+ * @ORM\Entity(repositoryClass="Beacode\CoreBundle\Repository\ImageRepository")
  */
-class Event
+class Image
 {
     /**
      * @var int
@@ -22,32 +22,32 @@ class Event
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="start", type="datetime")
-     */
-    private $start;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end", type="datetime")
-     */
-    private $end;
-
-    /**
      * @var int
      *
-     * @ORM\Column(name="location_id", type="integer")
+     * @ORM\Column(name="object_id", type="integer")
      */
-    private $locationId;
+    private $objectId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="object_type", type="string", length=255)
+     */
+    private $objectType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hash", type="string", length=255)
+     */
+    private $hash;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="extension", type="string", length=10)
+     */
+    private $extension;
 
     /**
      * @var string
@@ -63,13 +63,6 @@ class Event
      */
     private $systemCreated;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="creator_id", type="integer")
-     */
-    private $creatorId;
-
 
     /**
      * Get id
@@ -82,75 +75,99 @@ class Event
     }
 
     /**
-     * Set name
+     * Set objectId
      *
-     * @param string $name
+     * @param integer $objectId
      *
-     * @return Event
+     * @return Image
      */
-    public function setName($name)
+    public function setObjectId($objectId)
     {
-        $this->name = $name;
+        $this->objectId = $objectId;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get objectId
+     *
+     * @return int
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
+     * Set objectType
+     *
+     * @param string $objectType
+     *
+     * @return Image
+     */
+    public function setObjectType($objectType)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType
      *
      * @return string
      */
-    public function getName()
+    public function getObjectType()
     {
-        return $this->name;
+        return $this->objectType;
     }
 
     /**
-     * Set start
+     * Set hash
      *
-     * @param \DateTime $start
+     * @param string $hash
      *
-     * @return Event
+     * @return Image
      */
-    public function setStart($start)
+    public function setHash($hash)
     {
-        $this->start = $start;
+        $this->hash = $hash;
 
         return $this;
     }
 
     /**
-     * Get start
+     * Get hash
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getStart()
+    public function getHash()
     {
-        return $this->start;
+        return $this->hash;
     }
 
     /**
-     * Set end
+     * Set extension
      *
-     * @param \DateTime $end
+     * @param string $extension
      *
-     * @return Event
+     * @return Image
      */
-    public function setEnd($end)
+    public function setExtension($extension)
     {
-        $this->end = $end;
+        $this->extension = $extension;
 
         return $this;
     }
 
     /**
-     * Get end
+     * Get extension
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getEnd()
+    public function getExtension()
     {
-        return $this->end;
+        return $this->extension;
     }
 
     /**
@@ -158,7 +175,7 @@ class Event
      *
      * @param string $description
      *
-     * @return Event
+     * @return Image
      */
     public function setDescription($description)
     {
@@ -182,7 +199,7 @@ class Event
      *
      * @param \DateTime $systemCreated
      *
-     * @return Event
+     * @return Image
      */
     public function setSystemCreated($systemCreated)
     {
@@ -200,28 +217,5 @@ class Event
     {
         return $this->systemCreated;
     }
-
-    /**
-     * Set creatorId
-     *
-     * @param integer $creatorId
-     *
-     * @return Event
-     */
-    public function setCreatorId($creatorId)
-    {
-        $this->creatorId = $creatorId;
-
-        return $this;
-    }
-
-    /**
-     * Get creatorId
-     *
-     * @return integer
-     */
-    public function getCreatorId()
-    {
-        return $this->creatorId;
-    }
 }
+

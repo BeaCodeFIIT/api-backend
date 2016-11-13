@@ -43,11 +43,11 @@ class Event
     private $end;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="location", type="string", length=255)
+     * @ORM\Column(name="location_id", type="integer")
      */
-    private $location;
+    private $locationId;
 
     /**
      * @var string
@@ -154,30 +154,6 @@ class Event
     }
 
     /**
-     * Set location
-     *
-     * @param string $location
-     *
-     * @return Event
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    /**
-     * Get location
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
      * Set description
      *
      * @param string $description
@@ -247,5 +223,29 @@ class Event
     public function getCreatorId()
     {
         return $this->creatorId;
+    }
+
+    /**
+     * Set locationId
+     *
+     * @param integer $locationId
+     *
+     * @return Event
+     */
+    public function setLocationId($locationId)
+    {
+        $this->locationId = $locationId;
+
+        return $this;
+    }
+
+    /**
+     * Get locationId
+     *
+     * @return integer
+     */
+    public function getLocationId()
+    {
+        return $this->locationId;
     }
 }

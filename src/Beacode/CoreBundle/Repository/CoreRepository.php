@@ -11,6 +11,9 @@ namespace Beacode\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+//create, createIfNotExist, edit, upsert, remove, get
+//save, change, delete, show
+
 class CoreRepository extends EntityRepository {
 
     /**
