@@ -41,7 +41,9 @@ class EventController extends CoreController {
      */
     public function showEventsAction(Request $request) {
         $data = $this->getPostData($request);
-        $retval = $this->getRepo('Event')->showEvents($data);
+
+        $retval = $this->getRepo('Event')->showAppEvents($data);
+
         return $this->getSerializedResponse($retval);
     }
 }

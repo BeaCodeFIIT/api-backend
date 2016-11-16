@@ -3,17 +3,17 @@
  * Created by PhpStorm.
  * User: georg
  * Date: 16.11.2016
- * Time: 12:14
+ * Time: 14:51
  */
 
 namespace Beacode\AppBundle\Controller;
 
 
 use Beacode\CoreBundle\Controller\CoreController;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class InterestController extends CoreController {
+class SelectedExhibitForTourController extends CoreController {
 
     /**
      * ### Response ###
@@ -25,17 +25,17 @@ class InterestController extends CoreController {
      *
      * @ApiDoc(
      *     section="App",
-     *     description="Show all interests which belongs to logged in user. Sorted by systemCreated DESC.",
+     *     description="Show selected exhibits for tour which belongs to logged in user. Sorted by systemCreated DESC.",
      *     statusCodes={
      *         200="Returned when successful",
      *     }
      * )
      */
-    public function showInterestsAction() {
+    public function showSelectedExhibitsForTour() {
         $params = $this->getParams();
 
         $data = ['userId'=>$params['loggedInUserId']];
-        $retval = $this->getRepo('Interest')->showAppInterests($data);
+        $retval = $this->getRepo('SelectedExhibitForTour')->showAppSelectedExhibitsForTour($data);
 
         return $this->getSerializedResponse($retval);
     }
@@ -55,18 +55,18 @@ class InterestController extends CoreController {
      *
      * @ApiDoc(
      *     section="App",
-     *     description="Save new interest for logged in user.",
+     *     description="Save new selected exhibit for tour for logged in user.",
      *     statusCodes={
      *         200="Returned when successful",
      *     }
      * )
      */
-    public function saveInterestAction(Request $request) {
+    public function saveSelectedExhibitForTour(Request $request) {
         $params = $this->getParams();
         $data = $this->getPostData($request);
 
         $data['userId'] = $params['loggedInUserId'];
-        $retval = $this->getRepo('Interest')->saveAppInterest($data);
+        $retval = $this->getRepo('SelectedExhibitForTour')->saveAppSelectedExhibitForTour($data);
 
         return $this->getSerializedResponse($retval);
     }
@@ -77,25 +77,25 @@ class InterestController extends CoreController {
      * {}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
-     * @param $interestId
+     * @param $selectedExhibitForTourId
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
      *     section="App",
-     *     description="Delete interest which belongs to logged in user.",
+     *     description="Delete selected exhibit for tour which belongs to logged in user.",
      *     requirements={
-     *         {"name"="interestId", "dataType"="integer", "description"="id of interest"}
+     *         {"name"="selectedExhibitForTourId", "dataType"="integer", "description"="id of selected exhibit for tour"}
      *     },
      *     statusCodes={
      *         200="Returned when successful",
      *     }
      * )
      */
-    public function deleteInterestAction($interestId) {
+    public function deleteSelectedExhibitForTour($selectedExhibitForTourId) {
         $params = $this->getParams();
 
-        $data = ['id'=>$interestId, 'userId'=>$params['loggedInUserId']];
-        $retval = $this->getRepo('Interest')->deleteAppInterest($data);
+        $data = ['id'=>$selectedExhibitForTourId, 'userId'=>$params['loggedInUserId']];
+        $retval = $this->getRepo('SelectedExhibitForTour')->deleteAppSelectedExhibitForTour($data);
 
         return $this->getSerializedResponse($retval);
     }

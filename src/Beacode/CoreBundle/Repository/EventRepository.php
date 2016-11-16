@@ -187,7 +187,7 @@ class EventRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showEvents($data) {
+    public function showAppEvents($data) {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('i');
         $qb->from('BeacodeCoreBundle:Event', 'i');
@@ -202,23 +202,30 @@ class EventRepository extends CoreRepository {
         foreach ($eventObjectArray as $key=>$eventObject) {
             $eventDataArray[$key] = $this->getEventDataFromObject($eventObject, 1);
             $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
+
+            //todo pre kazdy event obrazky
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
     }
+
+    //******************************************************************************************************************
+    //******************************************************************************************************************
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
      * @return array
      */
-    public function showLiuEvents($data) {
+    public function showAdminWebEvents($data) {
         $eventObjectArray = $this->findBy(['creatorId'=>$data['creatorId']], ['name'=>'ASC']);
 
         $eventDataArray = [];
         foreach ($eventObjectArray as $key=>$eventObject) {
             $eventDataArray[$key] = $this->getEventDataFromObject($eventObject, 1);
             $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
+
+            //todo pre kazdy event obrazky
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
@@ -229,10 +236,11 @@ class EventRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function saveLiuEvent($data) {
+    public function saveAdminWebEvent($data) {
         $data['start'] = new \DateTime($data['start']);
         $data['end'] = new \DateTime($data['end']);
         $eventObject = $this->createEvent($data);
+
         $eventData = $this->getEventDataFromObject($eventObject, 2);
 
         return ['result'=>1, 'data'=>$eventData];

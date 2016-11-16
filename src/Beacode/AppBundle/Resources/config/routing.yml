@@ -5,9 +5,9 @@ beacode_api_app_events_show:
 
 #***********************************************************************************************************************
 
-beacode_api_app_liu_starred_events_show:
-    path:     /api/app/liu/starred-events
-    defaults: { _controller: BeacodeAppBundle:StarredEvent:showLiuStarredEvents }
+beacode_api_app_starred_events_show:
+    path:     /api/app/starred-events
+    defaults: { _controller: BeacodeAppBundle:StarredEvent:showStarredEvents }
     methods:  [GET]
 
 #***********************************************************************************************************************
@@ -19,14 +19,41 @@ beacode_api_app_events_exhibits_show:
 
 #***********************************************************************************************************************
 
-beacode_api_app_liu_interests_show:
-    path:     /api/app/liu/interests
-    defaults: { _controller: BeacodeAppBundle:Interest:showLiuInterests }
+beacode_api_app_interests_show:
+    path:     /api/app/interests
+    defaults: { _controller: BeacodeAppBundle:Interest:showInterests }
+    methods:  [GET]
+
+beacode_api_app_interests_save:
+    path:     /api/app/interests/new
+    defaults: { _controller: BeacodeAppBundle:Interest:saveInterest }
+    methods:  [POST]
+
+beacode_api_app_interests_delete:
+    path:     /api/app/interests/{interestId}
+    defaults: { _controller: BeacodeAppBundle:Interest:deleteInterest }
+    methods:  [DELETE]
+
+#***********************************************************************************************************************
+
+beacode_api_app_logged_in_user_show:
+    path:     /api/app/logged-in-user
+    defaults: { _controller: BeacodeAppBundle:User:showLoggedInUser }
     methods:  [GET]
 
 #***********************************************************************************************************************
 
-beacode_api_app_liu_show:
-    path:     /api/app/liu
-    defaults: { _controller: BeacodeAppBundle:User:showLiu }
+beacode_api_app_selected_exhibits_for_tour_show:
+    path:     /api/app/selected-exhibits-for-tour
+    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:showSelectedExhibitsForTour }
     methods:  [GET]
+
+beacode_api_app_selected_exhibits_for_tour_save:
+    path:     /api/app/selected-exhibits-for-tour/new
+    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:saveSelectedExhibitForTour }
+    methods:  [POST]
+
+beacode_api_app_selected_exhibits_for_tour_delete:
+    path:     /api/app/selected-exhibits-for-tour/{selectedExhibitForTourId}
+    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:deleteSelectedExhibitForTour }
+    methods:  [DELETE]

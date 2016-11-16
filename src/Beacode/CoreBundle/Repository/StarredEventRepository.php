@@ -140,7 +140,7 @@ class StarredEventRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [3];
+        if ($forFunction == 1) $whichData = [1, 3];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -179,7 +179,7 @@ class StarredEventRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showLiuStarredEvents($data) {
+    public function showAppStarredEvents($data) {
         $starredEventObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
 
         $starredEventDataArray = [];

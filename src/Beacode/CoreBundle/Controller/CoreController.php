@@ -9,6 +9,7 @@
 namespace Beacode\CoreBundle\Controller;
 
 
+use Beacode\CoreBundle\Classes\CoreClass;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,8 +46,18 @@ class CoreController extends Controller {
      * @return mixed
      */
     protected function getRepo($entity) {
-        $bundle = 'BeacodeCoreBundle:';
-        if ($entity == 'User') $bundle = 'BeacodeUserBundle:';
-        return $this->getDoctrine()->getManager()->getRepository($bundle.$entity);
+        $coreClass = new CoreClass(['em'=>$this->getDoctrine()->getManager()]);
+        return $coreClass->getRepo($entity);
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @return array
+     */
+    protected function getParams() {
+        $params = [];
+        $params['em'] = $this->getDoctrine()->getManager();
+        $params['loggedInUserId'] = 5;
+        return $params;
     }
 }

@@ -140,7 +140,8 @@ class SelectedExhibitForTourRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1];
+        if ($forFunction == 1) $whichData = [1, 3];
+        else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -157,5 +158,64 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     }
 
     //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    private function getExhibitDataFromId($data) {
+        $exhibitData = $this->getRepo('Exhibit')->getExhibitDataFromObject(null, 1, ['id'=>$data['exhibitId']]);
+        $data['exhibit'] = (!is_int($exhibitData) ? $exhibitData : null);
+        unset($data['exhibitId']);
+
+        return $data;
+    }
+
     //******************************************************************************************************************
+    //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function showAppSelectedExhibitsForTour($data) {
+        $selectedExhibitForTourObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
+
+        $selectedExhibitForTourDataArray = [];
+        foreach ($selectedExhibitForTourObjectArray as $key=>$selectedExhibitForTourObject) {
+            $selectedExhibitForTourDataArray[$key] = $this->getSelectedExhibitForTourDataFromObject($selectedExhibitForTourObject, 1);
+            $selectedExhibitForTourDataArray[$key] = $this->getExhibitDataFromId($selectedExhibitForTourDataArray[$key]);
+        }
+
+        return ['result'=>1, 'data'=>$selectedExhibitForTourDataArray];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function saveAppSelectedExhibitForTour($data) {
+        $selectedExhibitForTourObject = $this->createSelectedExhibitForTour($data);
+
+        $selectedExhibitForTourData = $this->getSelectedExhibitForTourDataFromObject($selectedExhibitForTourObject, 2);
+
+        return ['result'=>1, 'data'=>$selectedExhibitForTourData];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function deleteAppSelectedExhibitForTour($data) {
+        $selectedExhibitForTourObject = $this->getSelectedExhibitForTour($data);
+        if (is_int($selectedExhibitForTourObject)) return ['result'=>$selectedExhibitForTourObject];
+
+        $result = $this->removeSelectedExhibitForTour($data, $selectedExhibitForTourObject);
+
+        return ['result'=>$result];
+    }
 }

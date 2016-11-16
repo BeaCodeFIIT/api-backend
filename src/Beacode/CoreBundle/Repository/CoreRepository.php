@@ -9,6 +9,7 @@
 namespace Beacode\CoreBundle\Repository;
 
 
+use Beacode\CoreBundle\Classes\CoreClass;
 use Doctrine\ORM\EntityRepository;
 
 //create, createIfNotExist, edit, upsert, remove, get
@@ -22,6 +23,7 @@ class CoreRepository extends EntityRepository {
      * @return EntityRepository
      */
     protected function getRepo($entity) {
-        return $this->_em->getRepository('BeacodeCoreBundle:'.$entity);
+        $coreClass = new CoreClass(['em'=>$this->_em]);
+        return $coreClass->getRepo($entity);
     }
 }

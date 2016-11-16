@@ -30,9 +30,12 @@ class UserController extends CoreController {
      *     }
      * )
      */
-    public function showLiuAction() {
-        $data = ['id'=>5];
-        $retval = $this->getRepo('User')->showLiu($data);
+    public function showLoggedInUserAction() {
+        $params = $this->getParams();
+
+        $data = ['id'=>$params['loggedInUserId']];
+        $retval = $this->getRepo('User')->showAppLoggedInUser($data);
+
         return $this->getSerializedResponse($retval);
     }
 }

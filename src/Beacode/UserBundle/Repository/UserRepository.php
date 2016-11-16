@@ -62,9 +62,11 @@ class UserRepository extends CoreRepository  {
      * @param $data
      * @return array
      */
-    public function showLiu($data) {
+    public function showAppLoggedInUser($data) {
         $userData = $this->getUserDataFromObject(null, 1, $data);
         if (is_int($userData)) return ['result'=>$userData];
+
+        //todo obrazok
 
         return ['result'=>1, 'data'=>$userData];
     }

@@ -36,7 +36,8 @@ class ExhibitController extends CoreController {
      */
     public function showEventsExhibitsAction($eventId) {
         $data = ['eventId'=>$eventId];
-        $retval = $this->getRepo('Exhibit')->showEventsExhibits($data);
+        $retval = $this->getRepo('Exhibit')->showAppEventsExhibits($data);
+
         return $this->getSerializedResponse($retval);
     }
 }

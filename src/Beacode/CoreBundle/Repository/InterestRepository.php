@@ -139,6 +139,7 @@ class InterestRepository extends CoreRepository {
 
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 3];
+        else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -162,7 +163,7 @@ class InterestRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showLiuInterests($data) {
+    public function showAppInterests($data) {
         $interestObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
 
         $interestDataArray = [];
@@ -171,5 +172,32 @@ class InterestRepository extends CoreRepository {
         }
 
         return ['result'=>1, 'data'=>$interestDataArray];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function saveAppInterest($data) {
+        $interestObject = $this->createInterest($data);
+
+        $interestData = $this->getInterestDataFromObject($interestObject, 2);
+
+        return ['result'=>1, 'data'=>$interestData];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function deleteAppInterest($data) {
+        $interestObject = $this->getInterest($data);
+        if (is_int($interestObject)) return ['result'=>$interestObject];
+
+        $result = $this->removeInterest($data, $interestObject);
+
+        return ['result'=>$result];
     }
 }

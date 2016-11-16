@@ -167,15 +167,29 @@ class ExhibitRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showEventsExhibits($data) {
+    public function showAppEventsExhibits($data) {
         $exhibitObjectArray = $this->findBy(['eventId'=>$data['eventId']], ['name'=>'ASC']);
 
         $exhibitDataArray = [];
         foreach ($exhibitObjectArray as $exhibitObject) {
             $exhibitDataArray[] = $this->getExhibitDataFromObject($exhibitObject, 1);
+
+            //todo obrazky
         }
 
         return ['result'=>1, 'data'=>$exhibitDataArray];
+    }
+
+    //******************************************************************************************************************
+    //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function showAdminWebEventsExhibits($data) {
+        return $this->showAppEventsExhibits($data);
     }
 
     /**
@@ -183,8 +197,9 @@ class ExhibitRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function saveEventsExhibit($data) {
+    public function saveAdminWebEventsExhibit($data) {
         $exhibitObject = $this->createExhibit($data);
+
         $exhibitData = $this->getExhibitDataFromObject($exhibitObject, 2);
 
         return ['result'=>1, 'data'=>$exhibitData];

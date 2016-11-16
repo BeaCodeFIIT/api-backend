@@ -31,9 +31,12 @@ class EventController extends CoreController {
      *     }
      * )
      */
-    public function showLiuEventsAction() {
-        $data = ['creatorId'=>5];
-        $retval = $this->getRepo('Event')->showLiuEvents($data);
+    public function showEventsAction() {
+        $params = $this->getParams();
+
+        $data = ['creatorId'=>$params['loggedInUserId']];
+        $retval = $this->getRepo('Event')->showAdminWebEvents($data);
+
         return $this->getSerializedResponse($retval);
     }
 
@@ -52,7 +55,7 @@ class EventController extends CoreController {
      *
      * @ApiDoc(
      *     section="Admin Web",
-     *     description="Create new event.",
+     *     description="Create new event for logged in user.",
      *     parameters={
      *         {"name"="name", "dataType"="string", "required"=true, "description"="name of event"},
      *         {"name"="start", "dataType"="string", "required"=true, "format"="Y-m-d H:i:s", "description"="start of event"},
@@ -65,10 +68,13 @@ class EventController extends CoreController {
      *     }
      * )
      */
-    public function saveLiuEventAction(Request $request) {
+    public function saveEventAction(Request $request) {
+        $params = $this->getParams();
         $data = $this->getPostData($request);
-        $data['creatorId'] = 5;
-        $retval = $this->getRepo('Event')->saveLiuEvent($data);
+
+        $data['creatorId'] = $params['loggedInUserId'];
+        $retval = $this->getRepo('Event')->saveAdminWebEvent($data);
+
         return $this->getSerializedResponse($retval);
     }
 }

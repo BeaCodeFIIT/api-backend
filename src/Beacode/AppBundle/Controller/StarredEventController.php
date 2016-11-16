@@ -30,9 +30,12 @@ class StarredEventController extends CoreController {
      *     }
      * )
      */
-    public function showLiuStarredEventsAction() {
-        $data = ['userId'=>5];
-        $retval = $this->getRepo('StarredEvent')->showLiuStarredEvents($data);
+    public function showStarredEventsAction() {
+        $params = $this->getParams();
+
+        $data = ['userId'=>$params['loggedInUserId']];
+        $retval = $this->getRepo('StarredEvent')->showAppStarredEvents($data);
+
         return $this->getSerializedResponse($retval);
     }
 }

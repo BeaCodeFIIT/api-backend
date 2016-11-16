@@ -37,7 +37,9 @@ class ExhibitController extends CoreController {
      */
     public function showEventsExhibitsAction($eventId) {
         $data = ['eventId'=>$eventId];
-        $retval = $this->getRepo('Exhibit')->showEventsExhibits($data);
+
+        $retval = $this->getRepo('Exhibit')->showAdminWebEventsExhibits($data);
+
         return $this->getSerializedResponse($retval);
     }
 
@@ -57,7 +59,7 @@ class ExhibitController extends CoreController {
      *
      * @ApiDoc(
      *     section="Admin Web",
-     *     description="Create new exhibit.",
+     *     description="Create new exhibit for given event.",
      *     requirements={
      *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
      *     },
@@ -72,8 +74,10 @@ class ExhibitController extends CoreController {
      */
     public function saveEventsExhibitAction(Request $request, $eventId) {
         $data = $this->getPostData($request);
+
         $data['eventId'] = $eventId;
-        $retval = $this->getRepo('Exhibit')->saveEventsExhibit($data);
+        $retval = $this->getRepo('Exhibit')->saveAdminWebEventsExhibit($data);
+
         return $this->getSerializedResponse($retval);
     }
 }

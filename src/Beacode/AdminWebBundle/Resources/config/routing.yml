@@ -1,12 +1,14 @@
-beacode_api_admin_web_liu_events_show:
-    path:     /api/admin-web/liu/events
-    defaults: { _controller: BeacodeAdminWebBundle:Event:showLiuEvents }
+beacode_api_admin_web_events_show:
+    path:     /api/admin-web/events
+    defaults: { _controller: BeacodeAdminWebBundle:Event:showEvents }
     methods:  [GET, OPTIONS]
 
-beacode_api_admin_web_liu_events_save:
-    path:     /api/admin-web/liu/events/new
-    defaults: { _controller: BeacodeAdminWebBundle:Event:saveLiuEvent }
+beacode_api_admin_web_events_save:
+    path:     /api/admin-web/events/new
+    defaults: { _controller: BeacodeAdminWebBundle:Event:saveEvent }
     methods:  [POST, OPTIONS]
+
+#todo andrej
 
 #***********************************************************************************************************************
 
