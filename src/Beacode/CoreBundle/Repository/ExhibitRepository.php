@@ -160,6 +160,23 @@ class ExhibitRepository extends CoreRepository {
     }
 
     //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    private function getImagesForId($data) {
+        $imageObjectArray = $this->getRepo('Image')->findBy(['objectId'=>$data['id'], 'objectType'=>'exhibit']);
+
+        foreach ($imageObjectArray as $imageObject) {
+            $data['images'][] = $this->getRepo('Image')->getImageDataFromObject($imageObject, 1);
+        }
+
+        return $data;
+    }
+
+    //******************************************************************************************************************
     //******************************************************************************************************************
 
     /**
@@ -171,10 +188,9 @@ class ExhibitRepository extends CoreRepository {
         $exhibitObjectArray = $this->findBy(['eventId'=>$data['eventId']], ['name'=>'ASC']);
 
         $exhibitDataArray = [];
-        foreach ($exhibitObjectArray as $exhibitObject) {
-            $exhibitDataArray[] = $this->getExhibitDataFromObject($exhibitObject, 1);
-
-            //todo obrazky
+        foreach ($exhibitObjectArray as $key=>$exhibitObject) {
+            $exhibitDataArray[$key] = $this->getExhibitDataFromObject($exhibitObject, 1);
+            $exhibitDataArray[$key] = $this->getImagesForId($exhibitDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$exhibitDataArray];

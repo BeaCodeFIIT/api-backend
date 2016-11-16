@@ -141,7 +141,7 @@ class ImageRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1];
+        if ($forFunction == 1) $whichData = [1, 6, 7];
 
         $data = [];
         if (in_array(1, $whichData)) {

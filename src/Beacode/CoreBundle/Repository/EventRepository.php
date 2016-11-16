@@ -171,10 +171,30 @@ class EventRepository extends CoreRepository {
 
     //******************************************************************************************************************
 
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
     private function getLocationDataFromId($data) {
         $locationData = $this->getRepo('Location')->getLocationDataFromObject(null, 1, ['id'=>$data['locationId']]);
         $data['location'] = (!is_int($locationData) ? $locationData : null);
         unset($data['locationId']);
+
+        return $data;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    private function getImagesForId($data) {
+        $imageObjectArray = $this->getRepo('Image')->findBy(['objectId'=>$data['id'], 'objectType'=>'event']);
+
+        foreach ($imageObjectArray as $imageObject) {
+            $data['images'][] = $this->getRepo('Image')->getImageDataFromObject($imageObject, 1);
+        }
 
         return $data;
     }
@@ -202,8 +222,7 @@ class EventRepository extends CoreRepository {
         foreach ($eventObjectArray as $key=>$eventObject) {
             $eventDataArray[$key] = $this->getEventDataFromObject($eventObject, 1);
             $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
-
-            //todo pre kazdy event obrazky
+            $eventDataArray[$key] = $this->getImagesForId($eventDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
@@ -224,8 +243,7 @@ class EventRepository extends CoreRepository {
         foreach ($eventObjectArray as $key=>$eventObject) {
             $eventDataArray[$key] = $this->getEventDataFromObject($eventObject, 1);
             $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
-
-            //todo pre kazdy event obrazky
+            $eventDataArray[$key] = $this->getImagesForId($eventDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
@@ -242,8 +260,7 @@ class EventRepository extends CoreRepository {
 
         $eventData = $this->getEventDataFromObject($eventObject, 1);
         $eventData = $this->getLocationDataFromId($eventData);
-
-        //todo obrazky
+        $eventData = $this->getImagesForId($eventData);
 
         $eventData['exhibits'] = $this->getRepo('Exhibit')->showAdminWebEventsExhibits(['eventId'=>$data['id']]);
 
