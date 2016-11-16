@@ -162,7 +162,7 @@ class InterestRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showInterests($data) {
+    public function showLiuInterests($data) {
         $interestObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
 
         $interestDataArray = [];

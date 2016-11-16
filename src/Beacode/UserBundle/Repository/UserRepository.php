@@ -62,7 +62,7 @@ class UserRepository extends CoreRepository  {
      * @param $data
      * @return array
      */
-    public function showLoggedInUser($data) {
+    public function showLiu($data) {
         $userData = $this->getUserDataFromObject(null, 1, $data);
         if (is_int($userData)) return ['result'=>$userData];
 

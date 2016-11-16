@@ -1,25 +1,32 @@
 beacode_api_app_events_show:
-    path:     /api/app/events/show
-    defaults: { _controller: BeacodeAppBundle:Core:showEvents}
-    methods: [POST]
+    path:     /api/app/events
+    defaults: { _controller: BeacodeAppBundle:Event:showEvents}
+    methods:  [POST]
 
-beacode_api_app_starred_events_show:
-    path:     /api/app/starred-events/show
-    defaults: { _controller: BeacodeAppBundle:Core:showStarredEvents }
-    methods: [GET]
+#***********************************************************************************************************************
 
-beacode_api_app_exhibits_show:
-    path:     /api/app/exhibits/show/{eventId}
-    defaults: { _controller: BeacodeAppBundle:Core:showExhibits }
-    methods: [GET]
+beacode_api_app_liu_starred_events_show:
+    path:     /api/app/liu/starred-events
+    defaults: { _controller: BeacodeAppBundle:StarredEvent:showLiuStarredEvents }
+    methods:  [GET]
 
-beacode_api_app_interests_show:
-    path:     /api/app/interests/show
-    defaults: { _controller: BeacodeAppBundle:Core:showInterests }
-    methods: [GET]
+#***********************************************************************************************************************
 
-beacode_api_app_logged_in_user_show:
-    path:     /api/app/logged-in-user/show
-    defaults: { _controller: BeacodeAppBundle:Core:showLoggedInUser }
-    methods: [GET]
+beacode_api_app_events_exhibits_show:
+    path:     /api/app/events/{eventId}/exhibits
+    defaults: { _controller: BeacodeAppBundle:Exhibit:showEventsExhibits }
+    methods:  [GET]
 
+#***********************************************************************************************************************
+
+beacode_api_app_liu_interests_show:
+    path:     /api/app/liu/interests
+    defaults: { _controller: BeacodeAppBundle:Interest:showLiuInterests }
+    methods:  [GET]
+
+#***********************************************************************************************************************
+
+beacode_api_app_liu_show:
+    path:     /api/app/liu
+    defaults: { _controller: BeacodeAppBundle:User:showLiu }
+    methods:  [GET]

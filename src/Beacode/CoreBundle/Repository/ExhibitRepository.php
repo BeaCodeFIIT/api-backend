@@ -167,7 +167,7 @@ class ExhibitRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showExhibits($data) {
+    public function showEventsExhibits($data) {
         $exhibitObjectArray = $this->findBy(['eventId'=>$data['eventId']], ['name'=>'ASC']);
 
         $exhibitDataArray = [];
@@ -183,7 +183,7 @@ class ExhibitRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function saveExhibit($data) {
+    public function saveEventsExhibit($data) {
         $exhibitObject = $this->createExhibit($data);
         $exhibitData = $this->getExhibitDataFromObject($exhibitObject, 2);
 

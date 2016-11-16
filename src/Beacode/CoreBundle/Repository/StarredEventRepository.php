@@ -179,7 +179,7 @@ class StarredEventRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showStarredEvents($data) {
+    public function showLiuStarredEvents($data) {
         $starredEventObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
 
         $starredEventDataArray = [];

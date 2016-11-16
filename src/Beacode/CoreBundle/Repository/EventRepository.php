@@ -212,7 +212,7 @@ class EventRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showCreatedEvents($data) {
+    public function showLiuEvents($data) {
         $eventObjectArray = $this->findBy(['creatorId'=>$data['creatorId']], ['name'=>'ASC']);
 
         $eventDataArray = [];
@@ -229,7 +229,7 @@ class EventRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function saveEvent($data) {
+    public function saveLiuEvent($data) {
         $data['start'] = new \DateTime($data['start']);
         $data['end'] = new \DateTime($data['end']);
         $eventObject = $this->createEvent($data);
