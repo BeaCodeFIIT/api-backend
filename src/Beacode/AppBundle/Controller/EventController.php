@@ -11,6 +11,7 @@ namespace Beacode\AppBundle\Controller;
 
 use Beacode\CoreBundle\Controller\CoreController;
 use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class EventController extends CoreController {
 

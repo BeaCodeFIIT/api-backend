@@ -10,6 +10,7 @@ namespace Beacode\AppBundle\Controller;
 
 
 use Beacode\CoreBundle\Controller\CoreController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class StarredEventController extends CoreController {
 
