@@ -41,6 +41,34 @@ class EventController extends CoreController {
     }
 
     /**
+     * ### Response ###
+     *
+     * {}
+     *
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *     section="Admin Web",
+     *     description="Show event which belongs to logged in user.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
+     *     },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *     }
+     * )
+     */
+    public function showEventAction($eventId) {
+        $params = $this->getParams();
+
+        $data =['id'=>$eventId, 'creatorId'=>$params['loggedInUserId']];
+        $retval = $this->getRepo('Event')->showAdminWebEvent($data);
+
+        return $this->getSerializedResponse($retval);
+    }
+
+    /**
      * ### Request ###
      *
      * {}

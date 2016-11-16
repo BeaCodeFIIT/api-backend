@@ -236,6 +236,25 @@ class EventRepository extends CoreRepository {
      * @param $data
      * @return array
      */
+    public function showAdminWebEvent($data) {
+        $eventObject = $this->getEvent($data);
+        if (is_int($eventObject)) return ['result'=>$eventObject];
+
+        $eventData = $this->getEventDataFromObject($eventObject, 1);
+        $eventData = $this->getLocationDataFromId($eventData);
+
+        //todo obrazky
+
+        $eventData['exhibits'] = $this->getRepo('Exhibit')->showAdminWebEventsExhibits(['eventId'=>$data['id']]);
+
+        return ['result'=>1, 'data'=>$eventData];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
     public function saveAdminWebEvent($data) {
         $data['start'] = new \DateTime($data['start']);
         $data['end'] = new \DateTime($data['end']);

@@ -3,12 +3,15 @@ beacode_api_admin_web_events_show:
     defaults: { _controller: BeacodeAdminWebBundle:Event:showEvents }
     methods:  [GET, OPTIONS]
 
+beacode_api_admin_web_events_show_one:
+    path:     /api/admin-web/events/{eventId}
+    defaults: { _controller: BeacodeAdminWebBundle:Event:showEvent }
+    methods:  [GET, OPTIONS]
+
 beacode_api_admin_web_events_save:
     path:     /api/admin-web/events/new
     defaults: { _controller: BeacodeAdminWebBundle:Event:saveEvent }
     methods:  [POST, OPTIONS]
-
-#todo andrej
 
 #***********************************************************************************************************************
 
