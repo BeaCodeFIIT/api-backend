@@ -43,17 +43,17 @@ beacode_api_app_logged_in_user_show:
 
 #***********************************************************************************************************************
 
-beacode_api_app_selected_exhibits_for_tour_show:
-    path:     /api/app/selected-exhibits-for-tour
-    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:showSelectedExhibitsForTour }
+beacode_api_app_events_selected_exhibits_for_tour_show:
+    path:     /api/app/events/{eventId}/selected-exhibits-for-tour
+    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:showEventsSelectedExhibitsForTour }
     methods:  [GET]
 
-beacode_api_app_selected_exhibits_for_tour_save:
-    path:     /api/app/selected-exhibits-for-tour/new
-    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:saveSelectedExhibitForTour }
+beacode_api_app_events_selected_exhibits_for_tour_save:
+    path:     /api/app/events/{eventId}/selected-exhibits-for-tour/new
+    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:saveEventsSelectedExhibitForTour }
     methods:  [POST]
 
-beacode_api_app_selected_exhibits_for_tour_delete:
-    path:     /api/app/selected-exhibits-for-tour/{selectedExhibitForTourId}
-    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:deleteSelectedExhibitForTour }
+beacode_api_app_events_selected_exhibits_for_tour_delete:
+    path:     /api/app/events/{eventId}/selected-exhibits-for-tour/{selectedExhibitForTourId}
+    defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:deleteEventsSelectedExhibitForTour }
     methods:  [DELETE]

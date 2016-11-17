@@ -102,8 +102,8 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     public function getSelectedExhibitForTour($data) {
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
-        } else if ((!empty($data['userId'])) && (!empty($data['exhibitId']))) {
-            $object = $this->findOneBy(['userId'=>$data['userId'], 'exhibitId'=>$data['exhibitId']]);
+        } else if ((!empty($data['userId'])) && (!empty($data['eventId'])) && (!empty($data['exhibitId']))) {
+            $object = $this->findOneBy(['userId'=>$data['userId'], 'eventId'=>$data['eventId'], 'exhibitId'=>$data['exhibitId']]);
         }
 
         if (empty($object)) return 0;
@@ -118,6 +118,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      */
     private function getSelectedExhibitForTourObjectFromData(SelectedExhibitForTour $object, $data) {
         if (!empty($data['userId'])) $object->setUserId($data['userId']);
+        if (!empty($data['eventId'])) $object->setEventId($data['eventId']);
         if (!empty($data['exhibitId'])) $object->setExhibitId($data['exhibitId']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
 
@@ -140,7 +141,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1, 3];
+        if ($forFunction == 1) $whichData = [1, 4];
         else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
@@ -151,6 +152,9 @@ class SelectedExhibitForTourRepository extends CoreRepository {
             $data['userId'] = $object->getUserId();
         }
         if (in_array(3, $whichData)) {
+            $data['eventId'] = $object->getEventId();
+        }
+        if (in_array(4, $whichData)) {
             $data['exhibitId'] = $object->getExhibitId();
         }
 
@@ -180,8 +184,8 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function showAppSelectedExhibitsForTour($data) {
-        $selectedExhibitForTourObjectArray = $this->findBy(['userId'=>$data['userId']], ['systemCreated'=>'DESC']);
+    public function showAppEventsSelectedExhibitsForTour($data) {
+        $selectedExhibitForTourObjectArray = $this->findBy(['userId'=>$data['userId'], 'eventId'=>$data['eventId']], ['systemCreated'=>'DESC']);
 
         $selectedExhibitForTourDataArray = [];
         foreach ($selectedExhibitForTourObjectArray as $key=>$selectedExhibitForTourObject) {
@@ -197,7 +201,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function saveAppSelectedExhibitForTour($data) {
+    public function saveAppEventsSelectedExhibitForTour($data) {
         $selectedExhibitForTourObject = $this->createSelectedExhibitForTour($data);
 
         $selectedExhibitForTourData = $this->getSelectedExhibitForTourDataFromObject($selectedExhibitForTourObject, 2);
@@ -210,7 +214,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      * @param $data
      * @return array
      */
-    public function deleteAppSelectedExhibitForTour($data) {
+    public function deleteAppEventsSelectedExhibitForTour($data) {
         $selectedExhibitForTourObject = $this->getSelectedExhibitForTour($data);
         if (is_int($selectedExhibitForTourObject)) return ['result'=>$selectedExhibitForTourObject];
 

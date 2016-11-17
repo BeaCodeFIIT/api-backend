@@ -26,16 +26,19 @@ class SelectedExhibitForTourController extends CoreController {
      * @ApiDoc(
      *     section="App",
      *     description="Show selected exhibits for tour which belongs to logged in user. Sorted by systemCreated DESC.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
+     *     },
      *     statusCodes={
      *         200="Returned when successful",
      *     }
      * )
      */
-    public function showSelectedExhibitsForTour() {
+    public function showEventsSelectedExhibitsForTourAction($eventId) {
         $params = $this->getParams();
 
-        $data = ['userId'=>$params['loggedInUserId']];
-        $retval = $this->getRepo('SelectedExhibitForTour')->showAppSelectedExhibitsForTour($data);
+        $data = ['userId'=>$params['loggedInUserId'], 'eventId'=>$eventId];
+        $retval = $this->getRepo('SelectedExhibitForTour')->showAppEventsSelectedExhibitsForTour($data);
 
         return $this->getSerializedResponse($retval);
     }
@@ -56,17 +59,21 @@ class SelectedExhibitForTourController extends CoreController {
      * @ApiDoc(
      *     section="App",
      *     description="Save new selected exhibit for tour for logged in user.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
+     *     },
      *     statusCodes={
      *         200="Returned when successful",
      *     }
      * )
      */
-    public function saveSelectedExhibitForTour(Request $request) {
+    public function saveEventsSelectedExhibitForTourAction(Request $request, $eventId) {
         $params = $this->getParams();
         $data = $this->getPostData($request);
 
         $data['userId'] = $params['loggedInUserId'];
-        $retval = $this->getRepo('SelectedExhibitForTour')->saveAppSelectedExhibitForTour($data);
+        $data['eventId'] = $eventId;
+        $retval = $this->getRepo('SelectedExhibitForTour')->saveAppEventsSelectedExhibitForTour($data);
 
         return $this->getSerializedResponse($retval);
     }
@@ -84,6 +91,7 @@ class SelectedExhibitForTourController extends CoreController {
      *     section="App",
      *     description="Delete selected exhibit for tour which belongs to logged in user.",
      *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"},
      *         {"name"="selectedExhibitForTourId", "dataType"="integer", "description"="id of selected exhibit for tour"}
      *     },
      *     statusCodes={
@@ -91,11 +99,11 @@ class SelectedExhibitForTourController extends CoreController {
      *     }
      * )
      */
-    public function deleteSelectedExhibitForTour($selectedExhibitForTourId) {
+    public function deleteEventsSelectedExhibitForTourAction($eventId, $selectedExhibitForTourId) {
         $params = $this->getParams();
 
-        $data = ['id'=>$selectedExhibitForTourId, 'userId'=>$params['loggedInUserId']];
-        $retval = $this->getRepo('SelectedExhibitForTour')->deleteAppSelectedExhibitForTour($data);
+        $data = ['id'=>$selectedExhibitForTourId, 'userId'=>$params['loggedInUserId'], 'eventId'=>$eventId];
+        $retval = $this->getRepo('SelectedExhibitForTour')->deleteAppEventsSelectedExhibitForTour($data);
 
         return $this->getSerializedResponse($retval);
     }

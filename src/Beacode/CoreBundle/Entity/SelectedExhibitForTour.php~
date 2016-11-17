@@ -131,28 +131,5 @@ class SelectedExhibitForTour
     {
         return $this->systemCreated;
     }
-
-    /**
-     * Set eventId
-     *
-     * @param integer $eventId
-     *
-     * @return SelectedExhibitForTour
-     */
-    public function setEventId($eventId)
-    {
-        $this->eventId = $eventId;
-
-        return $this;
-    }
-
-    /**
-     * Get eventId
-     *
-     * @return integer
-     */
-    public function getEventId()
-    {
-        return $this->eventId;
-    }
 }
+
