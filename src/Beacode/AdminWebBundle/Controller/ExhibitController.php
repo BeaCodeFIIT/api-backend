@@ -18,7 +18,7 @@ class ExhibitController extends CoreController {
     /**
      * ### Response ###
      *
-     * {}
+     * {"result":1,"data":[{"id":3,"name":"BMW","description":"velmi drahe auto"},{"id":1,"name":"ford siesta","description":"pekne auto","images":[{"id":4,"description":"exponat picture","pathWithFile":"/files/images/exhibit/1/a4.png"}]},{"id":2,"name":"kia nokia","description":"toto nie je telefon"}]}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $eventId
@@ -45,11 +45,11 @@ class ExhibitController extends CoreController {
     /**
      * ### Request ###
      *
-     * {}
+     * {"name":"volvo","description":"pekne cierne auto"}
      *
      * ### Response ###
      *
-     * {}
+     * {"result":1,"data":{"id":4}}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request
@@ -61,10 +61,6 @@ class ExhibitController extends CoreController {
      *     description="Create new exhibit for given event.",
      *     requirements={
      *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
-     *     },
-     *     parameters={
-     *         {"name"="name", "dataType"="string", "required"=true, "description"="name of exhibit"},
-     *         {"name"="description", "dataType"="string", "required"=true, "description"="description of exhibit"},
      *     },
      *     statusCodes={
      *         200="Returned when successful",

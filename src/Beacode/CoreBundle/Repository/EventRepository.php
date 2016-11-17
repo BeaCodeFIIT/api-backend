@@ -153,8 +153,8 @@ class EventRepository extends CoreRepository {
             $data['name'] = $object->getName();
         }
         if (in_array(3, $whichData)) {
-            $data['start'] = $object->getStart()->format('d.m.Y H:i:s');
-            $data['end'] = $object->getEnd()->format('d.m.Y H:i:s');
+            $data['start'] = $object->getStart()->format('d.m.Y H:i');
+            $data['end'] = $object->getEnd()->format('d.m.Y H:i');
         }
         if (in_array(4, $whichData)) {
             $data['locationId'] = $object->getLocationId();
@@ -176,7 +176,7 @@ class EventRepository extends CoreRepository {
      * @param $data
      * @return mixed
      */
-    private function getLocationDataFromId($data) {
+    public function getLocationDataFromId($data) {
         $locationData = $this->getRepo('Location')->getLocationDataFromObject(null, 1, ['id'=>$data['locationId']]);
         $data['location'] = (!is_int($locationData) ? $locationData : null);
         unset($data['locationId']);
@@ -189,7 +189,7 @@ class EventRepository extends CoreRepository {
      * @param $data
      * @return mixed
      */
-    private function getImagesForId($data) {
+    public function getImagesForId($data) {
         $imageObjectArray = $this->getRepo('Image')->findBy(['objectId'=>$data['id'], 'objectType'=>'event']);
 
         foreach ($imageObjectArray as $imageObject) {

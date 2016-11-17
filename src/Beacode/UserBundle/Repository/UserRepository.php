@@ -55,6 +55,23 @@ class UserRepository extends CoreRepository  {
     }
 
     //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    public function getImageForId($data) {
+        $imageObject = $this->getRepo('Image')->findOneBy(['objectId'=>$data['id'], 'objectType'=>'user']);
+
+        if (!empty($imageObject)) {
+            $data['image'] = $this->getRepo('Image')->getImageDataFromObject($imageObject, 1);
+        }
+
+        return $data;
+    }
+
+    //******************************************************************************************************************
     //******************************************************************************************************************
 
     /**
@@ -65,8 +82,7 @@ class UserRepository extends CoreRepository  {
     public function showAppLoggedInUser($data) {
         $userData = $this->getUserDataFromObject(null, 1, $data);
         if (is_int($userData)) return ['result'=>$userData];
-
-        //todo obrazok
+        $userData = $this->getImageForId($userData);
 
         return ['result'=>1, 'data'=>$userData];
     }

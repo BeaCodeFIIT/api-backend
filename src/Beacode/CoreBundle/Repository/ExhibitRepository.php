@@ -166,7 +166,7 @@ class ExhibitRepository extends CoreRepository {
      * @param $data
      * @return mixed
      */
-    private function getImagesForId($data) {
+    public function getImagesForId($data) {
         $imageObjectArray = $this->getRepo('Image')->findBy(['objectId'=>$data['id'], 'objectType'=>'exhibit']);
 
         foreach ($imageObjectArray as $imageObject) {

@@ -168,10 +168,14 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      * @param $data
      * @return mixed
      */
-    private function getExhibitDataFromId($data) {
+    public function getExhibitDataFromId($data) {
         $exhibitData = $this->getRepo('Exhibit')->getExhibitDataFromObject(null, 1, ['id'=>$data['exhibitId']]);
         $data['exhibit'] = (!is_int($exhibitData) ? $exhibitData : null);
         unset($data['exhibitId']);
+
+        if (!empty($data['exhibit'])) {
+            $data['exhibit'] = $this->getRepo('Exhibit')->getImagesForId($data['exhibit']);
+        }
 
         return $data;
     }

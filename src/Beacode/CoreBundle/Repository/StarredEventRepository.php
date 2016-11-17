@@ -163,10 +163,15 @@ class StarredEventRepository extends CoreRepository {
      * @param $data
      * @return mixed
      */
-    private function getEventDataFromId($data) {
+    public function getEventDataFromId($data) {
         $eventData = $this->getRepo('Event')->getEventDataFromObject(null, 1, ['id'=>$data['eventId']]);
         $data['event'] = (!is_int($eventData) ? $eventData : null);
         unset($data['eventId']);
+
+        if (!empty($data['event'])) {
+            $data['event'] = $this->getRepo('Event')->getLocationDataFromId($data['event']);
+            $data['event'] = $this->getRepo('Event')->getImagesForId($data['event']);
+        }
 
         return $data;
     }

@@ -18,7 +18,7 @@ class SelectedExhibitForTourController extends CoreController {
     /**
      * ### Response ###
      *
-     * {}
+     * {"result":1,"data":[{"id":2,"exhibit":{"id":2,"name":"kia nokia","description":"toto nie je telefon"}},{"id":1,"exhibit":{"id":1,"name":"ford siesta","description":"pekne auto","images":[{"id":4,"description":"exponat picture","pathWithFile":"/files/images/exhibit/1/a4.png"}]}}]}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @return \Symfony\Component\HttpFoundation\Response
@@ -46,11 +46,11 @@ class SelectedExhibitForTourController extends CoreController {
     /**
      * ### Request ###
      *
-     * {}
+     * {"exhibitId":1}
      *
      * ### Response ###
      *
-     * {}
+     * {"result":1,"data":{"id":3}}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request
@@ -81,7 +81,7 @@ class SelectedExhibitForTourController extends CoreController {
     /**
      * ### Response ###
      *
-     * {}
+     * {"result":1}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $selectedExhibitForTourId

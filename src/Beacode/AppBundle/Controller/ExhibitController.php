@@ -17,7 +17,7 @@ class ExhibitController extends CoreController {
     /**
      * ### Response ###
      *
-     * {}
+     * {"result":1,"data":[{"id":3,"name":"BMW","description":"velmi drahe auto"},{"id":1,"name":"ford siesta","description":"pekne auto","images":[{"id":4,"description":"exponat picture","pathWithFile":"/files/images/exhibit/1/a4.png"}]},{"id":2,"name":"kia nokia","description":"toto nie je telefon"}]}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $eventId
