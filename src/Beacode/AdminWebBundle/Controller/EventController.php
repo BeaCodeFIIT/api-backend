@@ -71,11 +71,11 @@ class EventController extends CoreController {
     /**
      * ### Request ###
      *
-     * {}
+     * {"name":"vystava lodi","start":"2016-10-05 18:00","end":"2016-10-08 18:00","locationId":3,"description":"pekne lode na more"}
      *
      * ### Response ###
      *
-     * {}
+     * {"result":1,"data":{"id":4}}
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request
@@ -84,13 +84,6 @@ class EventController extends CoreController {
      * @ApiDoc(
      *     section="Admin Web",
      *     description="Create new event for logged in user.",
-     *     parameters={
-     *         {"name"="name", "dataType"="string", "required"=true, "description"="name of event"},
-     *         {"name"="start", "dataType"="string", "required"=true, "format"="Y-m-d H:i:s", "description"="start of event"},
-     *         {"name"="end", "dataType"="string", "required"=true, "format"="Y-m-d H:i:s", "description"="end of event"},
-     *         {"name"="location", "dataType"="string", "required"=true, "description"="location of event"},
-     *         {"name"="description", "dataType"="string", "required"=true, "description"="description of event"},
-     *     },
      *     statusCodes={
      *         200="Returned when successful",
      *     }

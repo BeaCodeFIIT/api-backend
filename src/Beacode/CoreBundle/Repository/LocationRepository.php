@@ -158,4 +158,28 @@ class LocationRepository extends CoreRepository {
 
     //******************************************************************************************************************
     //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function showAdminWebLocations($data) {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('i');
+        $qb->from('BeacodeCoreBundle:Location', 'i');
+        if (!empty($data['namePart'])) {
+            $qb->where('i.name LIKE ?1');
+            $qb->setParameter(1, $data['namePart'] . '%');
+        }
+        $qb->orderBy('i.name', 'ASC');
+        $locationObjectArray = $qb->getQuery()->getResult();
+
+        $locationDataArray = [];
+        foreach ($locationObjectArray as $locationObject) {
+            $locationDataArray[] = $this->getLocationDataFromObject($locationObject, 1);
+        }
+
+        return ['result'=>1, 'data'=>$locationDataArray];
+    }
 }
