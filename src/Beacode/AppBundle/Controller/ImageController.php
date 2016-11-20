@@ -36,7 +36,7 @@ class ImageController extends CoreController {
         $params = $this->getParams();
         $files = $this->getPostFiles($request);
 
-        $data = ['objectId'=>$params['loggedInUserId'], 'objectType'=>'user'];
+        $data = ['objectId'=>$params['loggedInUserId']];
         $systemData = ['projectRoot'=>$params['projectRoot']];
         $retval = $this->getRepo('Image')->saveAppLoggedInUserImage($data, $files['image'], $systemData);
 

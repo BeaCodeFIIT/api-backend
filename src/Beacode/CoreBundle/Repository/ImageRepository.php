@@ -204,6 +204,7 @@ class ImageRepository extends CoreRepository {
      * @return array
      */
     public function saveAppLoggedInUserImage($data, UploadedFile $file, $systemData) {
+        $data['objectType'] = 'user';
         $data['hash'] = uniqid();
         $data['extension'] = $file->guessExtension();
         $imageObject = $this->upsertImage($data);
