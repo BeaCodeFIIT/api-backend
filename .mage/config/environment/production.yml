@@ -9,6 +9,7 @@ deployment:
     - var/logs/*
     - var/sessions/*
     - app/config/parameters.yml
+    - files/*
   strategy: targz
 
 releases:

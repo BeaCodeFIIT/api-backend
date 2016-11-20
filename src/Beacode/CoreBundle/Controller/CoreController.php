@@ -30,6 +30,16 @@ class CoreController extends Controller {
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @return array
+     */
+    protected function getPostFiles(Request $request) {
+        $files = $request->files->all();
+        return $files;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
      * @return Response
      */
@@ -58,6 +68,7 @@ class CoreController extends Controller {
         $params = [];
         $params['em'] = $this->getDoctrine()->getManager();
         $params['loggedInUserId'] = 5;
+        $params['projectRoot'] = $this->getParameter('project_root');
         return $params;
     }
 }

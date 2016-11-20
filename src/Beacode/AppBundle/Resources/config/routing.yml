@@ -57,3 +57,10 @@ beacode_api_app_events_selected_exhibits_for_tour_delete:
     path:     /api/app/events/{eventId}/selected-exhibits-for-tour/{selectedExhibitForTourId}
     defaults: { _controller: BeacodeAppBundle:SelectedExhibitForTour:deleteEventsSelectedExhibitForTour }
     methods:  [DELETE]
+
+#***********************************************************************************************************************
+
+beacode_api_app_logged_in_user_images_save:
+    path:     /api/app/logged-in-user/images/new
+    defaults: { _controller: BeacodeAppBundle:Image:saveLoggedInUserImage }
+    methods:  [POST]

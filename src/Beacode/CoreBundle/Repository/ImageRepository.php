@@ -2,6 +2,7 @@
 
 namespace Beacode\CoreBundle\Repository;
 use Beacode\CoreBundle\Entity\Image;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * ImageRepository
@@ -102,6 +103,8 @@ class ImageRepository extends CoreRepository {
     public function getImage($data) {
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
+        } else if ((!empty($data['objectId'])) && (!empty($data['objectType'])) && ($data['objectType'] == 'user')) {
+            $object = $this->findOneBy(['objectId'=>$data['objectId'], 'objectType'=>$data['objectType']]);
         }
 
         if (empty($object)) return 0;
@@ -142,6 +145,7 @@ class ImageRepository extends CoreRepository {
 
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 6, 7];
+        else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -163,12 +167,51 @@ class ImageRepository extends CoreRepository {
             $data['description'] = $object->getDescription();
         }
         if (in_array(7, $whichData)) {
-            $data['pathWithFile'] = '/files/images/'.$object->getObjectType().'/'.$object->getObjectId().'/'.$object->getHash().'.'.$object->getExtension();
+            $data['pathWithFile'] = '/'.$this->getImagePath($object).$this->getImageFile($object);
         }
 
         return $data;
     }
 
     //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Image $object
+     * @return string
+     */
+    public function getImagePath(Image $object) {
+        return 'files/images/'.$object->getObjectType().'/'.$object->getObjectId().'/';
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Image $object
+     * @return string
+     */
+    public function getImageFile(Image $object) {
+        return $object->getHash().'.'.$object->getExtension();
+    }
+
     //******************************************************************************************************************
+    //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @param UploadedFile $file
+     * @param $systemData
+     * @return array
+     */
+    public function saveAppLoggedInUserImage($data, UploadedFile $file, $systemData) {
+        $data['hash'] = uniqid();
+        $data['extension'] = $file->guessExtension();
+        $imageObject = $this->upsertImage($data);
+
+        $file->move($systemData['projectRoot'].$this->getImagePath($imageObject), $this->getImageFile($imageObject));
+
+        $imageData = $this->getImageDataFromObject($imageObject, 2);
+
+        return ['result'=>1, 'data'=>$imageData];
+    }
 }
