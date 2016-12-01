@@ -214,7 +214,7 @@ class ExhibitRepository extends CoreRepository {
      * @return array
      */
     public function saveAdminWebEventsExhibit($data) {
-        $exhibitObject = $this->createExhibit($data);
+        $exhibitObject = $this->createIfNotExistExhibit($data);
 
         $exhibitData = $this->getExhibitDataFromObject($exhibitObject, 2);
 

@@ -206,7 +206,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      * @return array
      */
     public function saveAppEventsSelectedExhibitForTour($data) {
-        $selectedExhibitForTourObject = $this->createSelectedExhibitForTour($data);
+        $selectedExhibitForTourObject = $this->createIfNotExistSelectedExhibitForTour($data);
 
         $selectedExhibitForTourData = $this->getSelectedExhibitForTourDataFromObject($selectedExhibitForTourObject, 2);
 

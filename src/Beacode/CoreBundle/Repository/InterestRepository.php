@@ -180,7 +180,7 @@ class InterestRepository extends CoreRepository {
      * @return array
      */
     public function saveAppInterest($data) {
-        $interestObject = $this->createInterest($data);
+        $interestObject = $this->createIfNotExistInterest($data);
 
         $interestData = $this->getInterestDataFromObject($interestObject, 2);
 

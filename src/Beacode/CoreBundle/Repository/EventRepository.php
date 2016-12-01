@@ -275,7 +275,7 @@ class EventRepository extends CoreRepository {
     public function saveAdminWebEvent($data) {
         $data['start'] = new \DateTime($data['start']);
         $data['end'] = new \DateTime($data['end']);
-        $eventObject = $this->createEvent($data);
+        $eventObject = $this->createIfNotExistEvent($data);
 
         $eventData = $this->getEventDataFromObject($eventObject, 2);
 
