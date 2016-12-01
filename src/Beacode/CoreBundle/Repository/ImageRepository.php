@@ -21,6 +21,7 @@ class ImageRepository extends CoreRepository {
         $object = new Image();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getImageObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -54,6 +55,7 @@ class ImageRepository extends CoreRepository {
         }
 
         $object = $this->getImageObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -115,7 +117,7 @@ class ImageRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Image $object
      * @param $data
-     * @return Image
+     * @return Image|int
      */
     private function getImageObjectFromData(Image $object, $data) {
         if (!empty($data['objectId'])) $object->setObjectId($data['objectId']);
@@ -125,9 +127,25 @@ class ImageRepository extends CoreRepository {
         if (!empty($data['description'])) $object->setDescription($data['description']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
 
+        if (!$this->isImageObjectConsistent($object)) return -1;
+
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Image $object
+     * @return bool
+     */
+    private function isImageObjectConsistent(Image $object) {
+        if (empty($object->getObjectId())) return false;
+        if (empty($object->getObjectType())) return false;
+        if (empty($object->getHash())) return false;
+        if (empty($object->getExtension())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**
@@ -208,6 +226,7 @@ class ImageRepository extends CoreRepository {
         $data['hash'] = uniqid();
         $data['extension'] = $file->guessExtension();
         $imageObject = $this->upsertImage($data);
+        if ($this->isError($imageObject)) return ['result'=>$imageObject];
 
         $file->move($systemData['projectRoot'].$this->getImagePath($imageObject), $this->getImageFile($imageObject));
 

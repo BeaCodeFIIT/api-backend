@@ -20,6 +20,7 @@ class EventRepository extends CoreRepository {
         $object = new Event();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getEventObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -53,6 +54,7 @@ class EventRepository extends CoreRepository {
         }
 
         $object = $this->getEventObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -112,7 +114,7 @@ class EventRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Event $object
      * @param $data
-     * @return Event
+     * @return Event|int
      */
     private function getEventObjectFromData(Event $object, $data) {
         if (!empty($data['name'])) $object->setName($data['name']);
@@ -123,9 +125,27 @@ class EventRepository extends CoreRepository {
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
         if (!empty($data['creatorId'])) $object->setCreatorId($data['creatorId']);
 
+        if (!$this->isEventObjectConsistent($object)) return -1;
+
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Event $object
+     * @return bool
+     */
+    private function isEventObjectConsistent(Event $object) {
+        if (empty($object->getName())) return false;
+        if (empty($object->getStart())) return false;
+        if (empty($object->getEnd())) return false;
+        if (empty($object->getLocationId())) return false;
+        if (empty($object->getDescription())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        if (empty($object->getCreatorId())) return false;
+        return true;
     }
 
     /**
@@ -276,6 +296,7 @@ class EventRepository extends CoreRepository {
         $data['start'] = new \DateTime($data['start']);
         $data['end'] = new \DateTime($data['end']);
         $eventObject = $this->createIfNotExistEvent($data);
+        if ($this->isError($eventObject)) return ['result'=>$eventObject];
 
         $eventData = $this->getEventDataFromObject($eventObject, 2);
 

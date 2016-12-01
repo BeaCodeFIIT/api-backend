@@ -20,6 +20,7 @@ class InterestRepository extends CoreRepository {
         $object = new Interest();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getInterestObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -53,6 +54,7 @@ class InterestRepository extends CoreRepository {
         }
 
         $object = $this->getInterestObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -112,16 +114,30 @@ class InterestRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Interest $object
      * @param $data
-     * @return Interest
+     * @return Interest|int
      */
     private function getInterestObjectFromData(Interest $object, $data) {
         if (!empty($data['userId'])) $object->setUserId($data['userId']);
         if (!empty($data['name'])) $object->setName($data['name']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
 
+        if (!$this->isInterestObjectConsistent($object)) return -1;
+
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Interest $object
+     * @return bool
+     */
+    private function isInterestObjectConsistent(Interest $object) {
+        if (empty($object->getUserId())) return false;
+        if (empty($object->getName())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**
@@ -181,6 +197,7 @@ class InterestRepository extends CoreRepository {
      */
     public function saveAppInterest($data) {
         $interestObject = $this->createIfNotExistInterest($data);
+        if ($this->isError($interestObject)) return ['result'=>$interestObject];
 
         $interestData = $this->getInterestDataFromObject($interestObject, 2);
 

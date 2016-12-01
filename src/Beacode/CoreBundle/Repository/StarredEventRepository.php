@@ -20,6 +20,7 @@ class StarredEventRepository extends CoreRepository {
         $object = new StarredEvent();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getStarredEventObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -53,6 +54,7 @@ class StarredEventRepository extends CoreRepository {
         }
 
         $object = $this->getStarredEventObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -114,16 +116,30 @@ class StarredEventRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param StarredEvent $object
      * @param $data
-     * @return StarredEvent
+     * @return StarredEvent|int
      */
     private function getStarredEventObjectFromData(StarredEvent $object, $data) {
         if (!empty($data['userId'])) $object->setUserId($data['userId']);
         if (!empty($data['eventId'])) $object->setEventId($data['eventId']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
 
+        if (!$this->isStarredEventObjectConsistent($object)) return -1;
+
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param StarredEvent $object
+     * @return bool
+     */
+    private function isStarredEventObjectConsistent(StarredEvent $object) {
+        if (empty($object->getUserId())) return false;
+        if (empty($object->getEventId())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**

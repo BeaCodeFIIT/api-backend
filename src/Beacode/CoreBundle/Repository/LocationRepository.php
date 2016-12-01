@@ -20,6 +20,7 @@ class LocationRepository extends CoreRepository {
         $object = new Location();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getLocationObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -53,6 +54,7 @@ class LocationRepository extends CoreRepository {
         }
 
         $object = $this->getLocationObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -112,7 +114,7 @@ class LocationRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Location $object
      * @param $data
-     * @return Location
+     * @return Location|int
      */
     private function getLocationObjectFromData(Location $object, $data) {
         if (!empty($data['name'])) $object->setName($data['name']);
@@ -120,9 +122,24 @@ class LocationRepository extends CoreRepository {
         if (!empty($data['longitude'])) $object->setLongitude($data['longitude']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
 
+        if (!$this->isLocationObjectConsistent($object)) return -1;
+
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Location $object
+     * @return bool
+     */
+    private function isLocationObjectConsistent(Location $object) {
+        if (empty($object->getName())) return false;
+        if (empty($object->getLatitude())) return false;
+        if (empty($object->getLongitude())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**

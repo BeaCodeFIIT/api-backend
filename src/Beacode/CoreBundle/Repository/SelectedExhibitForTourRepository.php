@@ -20,6 +20,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
         $object = new SelectedExhibitForTour();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getSelectedExhibitForTourObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -53,6 +54,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
         }
 
         $object = $this->getSelectedExhibitForTourObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -114,7 +116,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param SelectedExhibitForTour $object
      * @param $data
-     * @return SelectedExhibitForTour
+     * @return SelectedExhibitForTour|int
      */
     private function getSelectedExhibitForTourObjectFromData(SelectedExhibitForTour $object, $data) {
         if (!empty($data['userId'])) $object->setUserId($data['userId']);
@@ -122,9 +124,24 @@ class SelectedExhibitForTourRepository extends CoreRepository {
         if (!empty($data['exhibitId'])) $object->setExhibitId($data['exhibitId']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
 
+        if (!$this->isSelectedExhibitForTourObjectConsistent($object)) return -1;
+
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param SelectedExhibitForTour $object
+     * @return bool
+     */
+    private function isSelectedExhibitForTourObjectConsistent(SelectedExhibitForTour $object) {
+        if (empty($object->getUserId())) return false;
+        if (empty($object->getEventId())) return false;
+        if (empty($object->getExhibitId())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**
@@ -207,6 +224,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      */
     public function saveAppEventsSelectedExhibitForTour($data) {
         $selectedExhibitForTourObject = $this->createIfNotExistSelectedExhibitForTour($data);
+        if ($this->isError($selectedExhibitForTourObject)) return ['result'=>$selectedExhibitForTourObject];
 
         $selectedExhibitForTourData = $this->getSelectedExhibitForTourDataFromObject($selectedExhibitForTourObject, 2);
 

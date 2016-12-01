@@ -20,6 +20,7 @@ class ExhibitRepository extends CoreRepository {
         $object = new Exhibit();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getExhibitObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -53,6 +54,7 @@ class ExhibitRepository extends CoreRepository {
         }
 
         $object = $this->getExhibitObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -112,7 +114,7 @@ class ExhibitRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Exhibit $object
      * @param $data
-     * @return Exhibit
+     * @return Exhibit|int
      */
     private function getExhibitObjectFromData(Exhibit $object, $data) {
         if (!empty($data['eventId'])) $object->setEventId($data['eventId']);
@@ -120,9 +122,24 @@ class ExhibitRepository extends CoreRepository {
         if (!empty($data['description'])) $object->setDescription($data['description']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
 
+        if (!$this->isExhibitObjectConsistent($object)) return -1;
+
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Exhibit $object
+     * @return bool
+     */
+    private function isExhibitObjectConsistent(Exhibit $object) {
+        if (empty($object->getEventId())) return false;
+        if (empty($object->getName())) return false;
+        if (empty($object->getDescription())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**
@@ -215,6 +232,7 @@ class ExhibitRepository extends CoreRepository {
      */
     public function saveAdminWebEventsExhibit($data) {
         $exhibitObject = $this->createIfNotExistExhibit($data);
+        if ($this->isError($exhibitObject)) return ['result'=>$exhibitObject];
 
         $exhibitData = $this->getExhibitDataFromObject($exhibitObject, 2);
 
