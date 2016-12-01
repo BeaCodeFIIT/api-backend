@@ -159,7 +159,7 @@ class BeaconRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1];
+        if ($forFunction == 1) $whichData = [1, 2];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -176,4 +176,19 @@ class BeaconRepository extends CoreRepository {
 
     //******************************************************************************************************************
     //******************************************************************************************************************
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @return array
+     */
+    public function showBeacons() {
+        $beaconObjectArray = $this->findBy([]);
+
+        $beaconDataArray = [];
+        foreach ($beaconObjectArray as $beaconObject) {
+            $beaconDataArray[] = $this->getBeaconDataFromObject($beaconObject, 1);
+        }
+
+        return ['result'=>1, 'data'=>$beaconDataArray];
+    }
 }

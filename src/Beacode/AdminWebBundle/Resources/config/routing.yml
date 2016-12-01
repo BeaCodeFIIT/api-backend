@@ -31,3 +31,10 @@ beacode_api_admin_web_locations_show:
     path:     /api/admin-web/locations
     defaults: { _controller: BeacodeAdminWebBundle:Location:showLocations }
     methods:  [POST, OPTIONS]
+
+#***********************************************************************************************************************
+
+beacode_api_admin_web_beacons_show:
+    path:     /api/admin-web/beacons
+    defaults: { _controller: BeacodeAdminWebBundle:Beacon:showBeacons }
+    methods:  [GET, OPTIONS]
