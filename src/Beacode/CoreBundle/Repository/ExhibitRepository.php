@@ -193,6 +193,21 @@ class ExhibitRepository extends CoreRepository {
         return $data;
     }
 
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    public function getBeaconsForId($data) {
+        $beaconObjectArray = $this->getRepo('Beacon')->findBy(['exhibitId'=>$data['id']]);
+
+        foreach ($beaconObjectArray as $beaconObject) {
+            $data['beacons'][] = $this->getRepo('Beacon')->getBeaconDataFromObject($beaconObject, 1);
+        }
+
+        return $data;
+    }
+
     //******************************************************************************************************************
     //******************************************************************************************************************
 
@@ -208,6 +223,7 @@ class ExhibitRepository extends CoreRepository {
         foreach ($exhibitObjectArray as $key=>$exhibitObject) {
             $exhibitDataArray[$key] = $this->getExhibitDataFromObject($exhibitObject, 1);
             $exhibitDataArray[$key] = $this->getImagesForId($exhibitDataArray[$key]);
+            $exhibitDataArray[$key] = $this->getBeaconsForId($exhibitDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$exhibitDataArray];
