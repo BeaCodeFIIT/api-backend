@@ -26,4 +26,14 @@ class CoreRepository extends EntityRepository {
         $coreClass = new CoreClass(['em'=>$this->_em]);
         return $coreClass->getRepo($entity);
     }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $retval
+     * @return bool
+     */
+    public function isError($retval) {
+        if ((is_int($retval)) && ($retval != 1)) return true;
+        return false;
+    }
 }

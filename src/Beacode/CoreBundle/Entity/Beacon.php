@@ -24,14 +24,14 @@ class Beacon
     /**
      * @var int
      *
-     * @ORM\Column(name="exhibit_id", type="integer")
+     * @ORM\Column(name="exhibit_id", type="integer", nullable=true)
      */
     private $exhibitId;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="UUID", type="integer")
+     * @ORM\Column(name="UUID", type="string", length=255)
      */
     private $UUID;
 

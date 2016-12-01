@@ -9,16 +9,23 @@
 namespace Beacode\CoreBundle\Classes;
 
 
-use Doctrine\ORM\EntityManager;
-
 class CoreClass {
 
     protected $em;
 
+    /**
+     * CoreClass constructor.
+     * @param $params
+     */
     public function __construct($params) {
         $this->em = $params['em'];
     }
 
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $entity
+     * @return mixed
+     */
     public function getRepo($entity) {
         $bundle = 'BeacodeCoreBundle:';
         if ($entity == 'User') $bundle = 'BeacodeUserBundle:';

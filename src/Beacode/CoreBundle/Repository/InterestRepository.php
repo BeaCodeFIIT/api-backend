@@ -49,7 +49,7 @@ class InterestRepository extends CoreRepository {
     public function editInterest($data, Interest $object=null) {
         if (empty($object)) {
             $object = $this->getInterest($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getInterestObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class InterestRepository extends CoreRepository {
     public function removeInterest($data, Interest $object=null) {
         if (empty($object)) {
             $object = $this->getInterest($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -134,7 +134,7 @@ class InterestRepository extends CoreRepository {
     public function getInterestDataFromObject(Interest $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getInterest($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];
@@ -194,7 +194,7 @@ class InterestRepository extends CoreRepository {
      */
     public function deleteAppInterest($data) {
         $interestObject = $this->getInterest($data);
-        if (is_int($interestObject)) return ['result'=>$interestObject];
+        if ($this->isError($interestObject)) return ['result'=>$interestObject];
 
         $result = $this->removeInterest($data, $interestObject);
 

@@ -49,7 +49,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     public function editSelectedExhibitForTour($data, SelectedExhibitForTour $object=null) {
         if (empty($object)) {
             $object = $this->getSelectedExhibitForTour($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getSelectedExhibitForTourObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     public function removeSelectedExhibitForTour($data, SelectedExhibitForTour $object=null) {
         if (empty($object)) {
             $object = $this->getSelectedExhibitForTour($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -137,7 +137,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
     public function getSelectedExhibitForTourDataFromObject(SelectedExhibitForTour $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getSelectedExhibitForTour($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];
@@ -170,7 +170,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      */
     public function getExhibitDataFromId($data) {
         $exhibitData = $this->getRepo('Exhibit')->getExhibitDataFromObject(null, 1, ['id'=>$data['exhibitId']]);
-        $data['exhibit'] = (!is_int($exhibitData) ? $exhibitData : null);
+        $data['exhibit'] = (!$this->isError($exhibitData) ? $exhibitData : null);
         unset($data['exhibitId']);
 
         if (!empty($data['exhibit'])) {
@@ -220,7 +220,7 @@ class SelectedExhibitForTourRepository extends CoreRepository {
      */
     public function deleteAppEventsSelectedExhibitForTour($data) {
         $selectedExhibitForTourObject = $this->getSelectedExhibitForTour($data);
-        if (is_int($selectedExhibitForTourObject)) return ['result'=>$selectedExhibitForTourObject];
+        if ($this->isError($selectedExhibitForTourObject)) return ['result'=>$selectedExhibitForTourObject];
 
         $result = $this->removeSelectedExhibitForTour($data, $selectedExhibitForTourObject);
 

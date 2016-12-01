@@ -49,7 +49,7 @@ class ExhibitRepository extends CoreRepository {
     public function editExhibit($data, Exhibit $object=null) {
         if (empty($object)) {
             $object = $this->getExhibit($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getExhibitObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class ExhibitRepository extends CoreRepository {
     public function removeExhibit($data, Exhibit $object=null) {
         if (empty($object)) {
             $object = $this->getExhibit($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -135,7 +135,7 @@ class ExhibitRepository extends CoreRepository {
     public function getExhibitDataFromObject(Exhibit $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getExhibit($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];

@@ -50,7 +50,7 @@ class ImageRepository extends CoreRepository {
     public function editImage($data, Image $object=null) {
         if (empty($object)) {
             $object = $this->getImage($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getImageObjectFromData($object, $data);
@@ -85,7 +85,7 @@ class ImageRepository extends CoreRepository {
     public function removeImage($data, Image $object=null) {
         if (empty($object)) {
             $object = $this->getImage($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -140,7 +140,7 @@ class ImageRepository extends CoreRepository {
     public function getImageDataFromObject(Image $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getImage($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];

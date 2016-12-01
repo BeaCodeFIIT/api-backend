@@ -20,6 +20,7 @@ class BeaconRepository extends CoreRepository {
         $object = new Beacon();
         $data['systemCreated'] = new \DateTime();
         $object = $this->getBeaconObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -49,10 +50,11 @@ class BeaconRepository extends CoreRepository {
     public function editBeacon($data, Beacon $object=null) {
         if (empty($object)) {
             $object = $this->getBeacon($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getBeaconObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
 
         $this->_em->flush();
 
@@ -84,7 +86,7 @@ class BeaconRepository extends CoreRepository {
     public function removeBeacon($data, Beacon $object=null) {
         if (empty($object)) {
             $object = $this->getBeacon($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -102,6 +104,8 @@ class BeaconRepository extends CoreRepository {
     public function getBeacon($data) {
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
+        } else if ((!empty($data['UUID'])) && (isset($data['major'])) && (isset($data['minor']))) {
+            $object = $this->findOneBy(['UUID'=>$data['UUID'], 'major'=>$data['major'], 'minor'=>$data['minor']]);
         }
 
         if (empty($object)) return 0;
@@ -112,18 +116,33 @@ class BeaconRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Beacon $object
      * @param $data
-     * @return Beacon
+     * @return Beacon|int
      */
     private function getBeaconObjectFromData(Beacon $object, $data) {
         if (!empty($data['exhibitId'])) $object->setExhibitId($data['exhibitId']);
         if (!empty($data['UUID'])) $object->setUUID($data['UUID']);
-        if (!empty($data['major'])) $object->setMajor($data['major']);
-        if (!empty($data['minor'])) $object->setMinor($data['minor']);
+        if (isset($data['major'])) $object->setMajor($data['major']);
+        if (isset($data['minor'])) $object->setMinor($data['minor']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
+
+        if (!$this->isBeaconObjectConsistent($object)) return -1;
 
         $this->_em->persist($object);
 
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Beacon $object
+     * @return bool
+     */
+    private function isBeaconObjectConsistent(Beacon $object) {
+        if (empty($object->getUUID())) return false;
+        if ($object->getMajor() === null) return false;
+        if ($object->getMinor() === null) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**
@@ -136,7 +155,7 @@ class BeaconRepository extends CoreRepository {
     public function getBeaconDataFromObject(Beacon $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getBeacon($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];

@@ -49,7 +49,7 @@ class StarredEventRepository extends CoreRepository {
     public function editStarredEvent($data, StarredEvent $object=null) {
         if (empty($object)) {
             $object = $this->getStarredEvent($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getStarredEventObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class StarredEventRepository extends CoreRepository {
     public function removeStarredEvent($data, StarredEvent $object=null) {
         if (empty($object)) {
             $object = $this->getStarredEvent($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -136,7 +136,7 @@ class StarredEventRepository extends CoreRepository {
     public function getStarredEventDataFromObject(StarredEvent $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getStarredEvent($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];
@@ -165,7 +165,7 @@ class StarredEventRepository extends CoreRepository {
      */
     public function getEventDataFromId($data) {
         $eventData = $this->getRepo('Event')->getEventDataFromObject(null, 1, ['id'=>$data['eventId']]);
-        $data['event'] = (!is_int($eventData) ? $eventData : null);
+        $data['event'] = (!$this->isError($eventData) ? $eventData : null);
         unset($data['eventId']);
 
         if (!empty($data['event'])) {

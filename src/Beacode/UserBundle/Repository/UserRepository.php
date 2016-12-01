@@ -36,7 +36,7 @@ class UserRepository extends CoreRepository  {
     public function getUserDataFromObject(User $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getUser($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];
@@ -81,7 +81,7 @@ class UserRepository extends CoreRepository  {
      */
     public function showAppLoggedInUser($data) {
         $userData = $this->getUserDataFromObject(null, 1, $data);
-        if (is_int($userData)) return ['result'=>$userData];
+        if ($this->isError($userData)) return ['result'=>$userData];
         $userData = $this->getImageForId($userData);
 
         return ['result'=>1, 'data'=>$userData];

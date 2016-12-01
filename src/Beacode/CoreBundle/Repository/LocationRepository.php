@@ -49,7 +49,7 @@ class LocationRepository extends CoreRepository {
     public function editLocation($data, Location $object=null) {
         if (empty($object)) {
             $object = $this->getLocation($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getLocationObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class LocationRepository extends CoreRepository {
     public function removeLocation($data, Location $object=null) {
         if (empty($object)) {
             $object = $this->getLocation($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -135,7 +135,7 @@ class LocationRepository extends CoreRepository {
     public function getLocationDataFromObject(Location $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getLocation($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];

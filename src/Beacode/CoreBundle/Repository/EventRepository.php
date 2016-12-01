@@ -49,7 +49,7 @@ class EventRepository extends CoreRepository {
     public function editEvent($data, Event $object=null) {
         if (empty($object)) {
             $object = $this->getEvent($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $object = $this->getEventObjectFromData($object, $data);
@@ -84,7 +84,7 @@ class EventRepository extends CoreRepository {
     public function removeEvent($data, Event $object=null) {
         if (empty($object)) {
             $object = $this->getEvent($data);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $this->_em->remove($object);
@@ -138,7 +138,7 @@ class EventRepository extends CoreRepository {
     public function getEventDataFromObject(Event $object=null, $forFunction, $dataIn=[]) {
         if (empty($object)) {
             $object = $this->getEvent($dataIn);
-            if (is_int($object)) return $object;
+            if ($this->isError($object)) return $object;
         }
 
         $whichData = [];
@@ -178,7 +178,7 @@ class EventRepository extends CoreRepository {
      */
     public function getLocationDataFromId($data) {
         $locationData = $this->getRepo('Location')->getLocationDataFromObject(null, 1, ['id'=>$data['locationId']]);
-        $data['location'] = (!is_int($locationData) ? $locationData : null);
+        $data['location'] = (!$this->isError($locationData) ? $locationData : null);
         unset($data['locationId']);
 
         return $data;
@@ -256,7 +256,7 @@ class EventRepository extends CoreRepository {
      */
     public function showAdminWebEvent($data) {
         $eventObject = $this->getEvent($data);
-        if (is_int($eventObject)) return ['result'=>$eventObject];
+        if ($this->isError($eventObject)) return ['result'=>$eventObject];
 
         $eventData = $this->getEventDataFromObject($eventObject, 1);
         $eventData = $this->getLocationDataFromId($eventData);
