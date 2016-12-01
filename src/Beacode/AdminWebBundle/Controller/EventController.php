@@ -83,7 +83,7 @@ class EventController extends CoreController {
      *
      * @ApiDoc(
      *     section="Admin Web",
-     *     description="Create new event for logged in user.",
+     *     description="Save new event for logged in user.",
      *     statusCodes={
      *         200="Returned when successful",
      *     }

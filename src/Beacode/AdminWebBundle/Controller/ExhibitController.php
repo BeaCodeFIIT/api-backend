@@ -58,7 +58,7 @@ class ExhibitController extends CoreController {
      *
      * @ApiDoc(
      *     section="Admin Web",
-     *     description="Create new exhibit for given event.",
+     *     description="Save new exhibit for given event.",
      *     requirements={
      *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
      *     },

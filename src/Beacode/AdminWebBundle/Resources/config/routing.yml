@@ -38,3 +38,8 @@ beacode_api_admin_web_beacons_show:
     path:     /api/admin-web/beacons
     defaults: { _controller: BeacodeAdminWebBundle:Beacon:showBeacons }
     methods:  [GET, OPTIONS]
+
+beacode_api_admin_web_beacons_change:
+    path:     /api/admin-web/beacons/{beaconId}
+    defaults: { _controller: BeacodeAdminWebBundle:Beacon:changeBeacon }
+    methods:  [PATCH, OPTIONS]

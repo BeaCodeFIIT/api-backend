@@ -181,8 +181,12 @@ class BeaconRepository extends CoreRepository {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @return array
      */
-    public function showBeacons() {
-        $beaconObjectArray = $this->findBy([]);
+    public function showAdminWebBeacons() {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('i');
+        $qb->from('BeacodeCoreBundle:Beacon', 'i');
+        $qb->where('i.exhibitId IS NULL');
+        $beaconObjectArray = $qb->getQuery()->getResult();
 
         $beaconDataArray = [];
         foreach ($beaconObjectArray as $beaconObject) {
@@ -190,5 +194,28 @@ class BeaconRepository extends CoreRepository {
         }
 
         return ['result'=>1, 'data'=>$beaconDataArray];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @param $patchArray
+     * @return array
+     */
+    public function changeAdminWebBeacon($data, $patchArray) {
+        $beaconObject = $this->getBeacon($data);
+        if ($this->isError($beaconObject)) return ['result'=>$beaconObject];
+
+        foreach ($patchArray as $patch) {
+            $pathArray = explode('/', $patch['path']);
+            if ($patch['op'] == 'replace') {
+                $data[$pathArray[1]] = $patch['value'];
+            }
+        }
+
+        $beaconObject = $this->editBeacon($data, $beaconObject);
+        if ($this->isError($beaconObject)) return ['result'=>$beaconObject];
+
+        return ['result'=>1];
     }
 }
