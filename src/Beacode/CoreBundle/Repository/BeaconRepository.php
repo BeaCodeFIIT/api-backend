@@ -119,7 +119,7 @@ class BeaconRepository extends CoreRepository {
      * @return Beacon|int
      */
     private function getBeaconObjectFromData(Beacon $object, $data) {
-        if (!empty($data['exhibitId'])) $object->setExhibitId($data['exhibitId']);
+        if (array_key_exists('exhibitId', $data)) $object->setExhibitId($data['exhibitId']);
         if (!empty($data['UUID'])) $object->setUUID($data['UUID']);
         if (isset($data['major'])) $object->setMajor($data['major']);
         if (isset($data['minor'])) $object->setMinor($data['minor']);
