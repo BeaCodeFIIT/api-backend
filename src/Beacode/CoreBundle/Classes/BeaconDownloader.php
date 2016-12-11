@@ -11,6 +11,17 @@ namespace Beacode\CoreBundle\Classes;
 
 class BeaconDownloader extends CoreClass {
 
+    private $authHeader;
+
+    /**
+     * BeaconDownloader constructor.
+     * @param $params
+     */
+    public function __construct($params) {
+        parent::__construct($params);
+        $this->authHeader = 'Authorization: Token token='.$params['gimbal_token'];
+    }
+
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      */
@@ -26,13 +37,12 @@ class BeaconDownloader extends CoreClass {
      */
     private function getBeaconConfigurations() {
         $apiUrl = 'https://manager.gimbal.com/api/beacon_configurations';
-        $authHeader = 'Authorization: Token token=37cc6e270bb57ecdcc3a70e7647a3b17';
 
         $ch = curl_init();
         $curlOptArray = [
             CURLOPT_URL=>$apiUrl,
             CURLOPT_CUSTOMREQUEST=>'GET',
-            CURLOPT_HTTPHEADER=>[$authHeader],
+            CURLOPT_HTTPHEADER=>[$this->authHeader],
             CURLOPT_RETURNTRANSFER=>1
         ];
         curl_setopt_array($ch, $curlOptArray);

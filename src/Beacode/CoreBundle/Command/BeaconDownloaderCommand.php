@@ -29,6 +29,7 @@ class BeaconDownloaderCommand extends CoreCommand {
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $params = $this->getParams();
+        $params['gimbal_token'] = $this->getContainer()->getParameter('gimbal_token');
 
         $beaconDownloaderClass = new BeaconDownloader($params);
         $beaconDownloaderClass->process();
