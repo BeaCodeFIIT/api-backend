@@ -168,6 +168,7 @@ class EventRepository extends CoreRepository {
         $whichData = [];
         if ($forFunction == 1) $whichData = [1, 2, 3, 4, 5];
         else if ($forFunction == 2) $whichData = [1];
+        else if ($forFunction == 3) $whichData = [1, 2];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -225,6 +226,21 @@ class EventRepository extends CoreRepository {
         return $data;
     }
 
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    public function getCategoriesForId($data) {
+        $eventObjectArray = $this->findBy(['level'=>1, 'parentId'=>$data['id']]);
+
+        foreach ($eventObjectArray as $eventObject) {
+            $data['categories'][] = $this->getEventDataFromObject($eventObject, 3);
+        }
+
+        return $data;
+    }
+
     //******************************************************************************************************************
     //******************************************************************************************************************
 
@@ -237,8 +253,9 @@ class EventRepository extends CoreRepository {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('i');
         $qb->from('BeacodeCoreBundle:Event', 'i');
+        $qb->where('i.level = 0');
         if (!empty($data['namePart'])) {
-            $qb->where('i.name LIKE ?1');
+            $qb->andWhere('i.name LIKE ?1');
             $qb->setParameter(1, $data['namePart'] . '%');
         }
         $qb->orderBy('i.name', 'ASC');
@@ -249,6 +266,7 @@ class EventRepository extends CoreRepository {
             $eventDataArray[$key] = $this->getEventDataFromObject($eventObject, 1);
             $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
             $eventDataArray[$key] = $this->getImagesForId($eventDataArray[$key]);
+            $eventDataArray[$key] = $this->getCategoriesForId($eventDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
@@ -263,7 +281,7 @@ class EventRepository extends CoreRepository {
      * @return array
      */
     public function showAdminWebEvents($data) {
-        $eventObjectArray = $this->findBy(['creatorId'=>$data['creatorId']], ['name'=>'ASC']);
+        $eventObjectArray = $this->findBy(['creatorId'=>$data['creatorId'], 'level'=>0], ['name'=>'ASC']);
 
         $eventDataArray = [];
         foreach ($eventObjectArray as $key=>$eventObject) {
@@ -287,8 +305,7 @@ class EventRepository extends CoreRepository {
         $eventData = $this->getEventDataFromObject($eventObject, 1);
         $eventData = $this->getLocationDataFromId($eventData);
         $eventData = $this->getImagesForId($eventData);
-
-        $eventData['exhibits'] = $this->getRepo('Exhibit')->showAdminWebEventsExhibits(['eventId'=>$data['id']]);
+        $eventData = $this->getCategoriesForId($eventData);
 
         return ['result'=>1, 'data'=>$eventData];
     }
