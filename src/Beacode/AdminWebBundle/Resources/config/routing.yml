@@ -43,3 +43,10 @@ beacode_api_admin_web_beacons_change:
     path:     /api/admin-web/beacons/{beaconId}
     defaults: { _controller: BeacodeAdminWebBundle:Beacon:changeBeacon }
     methods:  [PATCH, OPTIONS]
+
+#***********************************************************************************************************************
+
+beacode_api_admin_web_events_images_save:
+    path:     /api/admin-web/events/{eventId}/images/new
+    defaults: { _controller: BeacodeAdminWebBundle:Image:saveEventImage }
+    methods:  [POST, OPTIONS]
