@@ -31,4 +31,14 @@ class CoreClass {
         if ($entity == 'User') $bundle = 'BeacodeUserBundle:';
         return $this->em->getRepository($bundle.$entity);
     }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $retval
+     * @return bool
+     */
+    public function isError($retval) {
+        if ((is_int($retval)) && ($retval <= 0)) return true;
+        return false;
+    }
 }

@@ -33,7 +33,7 @@ class CoreRepository extends EntityRepository {
      * @return bool
      */
     public function isError($retval) {
-        if ((is_int($retval)) && ($retval != 1)) return true;
-        return false;
+        $coreClass = new CoreClass(['em'=>$this->_em]);
+        return $coreClass->isError($retval);
     }
 }

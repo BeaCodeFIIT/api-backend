@@ -52,6 +52,18 @@ class CoreController extends Controller {
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @return array
+     */
+    protected function getParams() {
+        $params = [];
+        $params['em'] = $this->getDoctrine()->getManager();
+        $params['loggedInUserId'] = 5;
+        $params['projectRoot'] = $this->getParameter('project_root');
+        return $params;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $entity
      * @return mixed
      */
@@ -62,13 +74,11 @@ class CoreController extends Controller {
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
-     * @return array
+     * @param $retval
+     * @return bool
      */
-    protected function getParams() {
-        $params = [];
-        $params['em'] = $this->getDoctrine()->getManager();
-        $params['loggedInUserId'] = 5;
-        $params['projectRoot'] = $this->getParameter('project_root');
-        return $params;
+    protected function isError($retval) {
+        $coreClass = new CoreClass(['em'=>$this->getDoctrine()->getManager()]);
+        return $coreClass->isError($retval);
     }
 }
