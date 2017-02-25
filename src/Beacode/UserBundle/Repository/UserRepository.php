@@ -1,6 +1,7 @@
 <?php
 
 namespace Beacode\UserBundle\Repository;
+
 use Beacode\CoreBundle\Repository\CoreRepository;
 use Beacode\UserBundle\Entity\User;
 
@@ -15,6 +16,91 @@ class UserRepository extends CoreRepository {
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $data
+     * @return User|int|null|object
+     */
+    public function createUser($data) {
+        $object = new User();
+        $data['systemCreated'] = new \DateTime();
+        $object = $this->getUserObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
+
+        $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return User|int|null|object
+     */
+    public function createIfNotExistUser($data) {
+        $object = $this->getUser($data);
+        if (empty($object)) {
+            $object = $this->createUser($data);
+        }
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @param User|null $object
+     * @return User|int|null|object
+     */
+    public function editUser($data, User $object=null) {
+        if (empty($object)) {
+            $object = $this->getUser($data);
+            if ($this->isError($object)) return $object;
+        }
+
+        $object = $this->getUserObjectFromData($object, $data);
+        if ($this->isError($object)) return $object;
+
+        $this->_em->flush();
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return User|int|null|object
+     */
+    public function upsertUser($data) {
+        $object = $this->getUser($data);
+        if (empty($object)) {
+            $object = $this->createUser($data);
+        } else {
+            $object = $this->editUser($data, $object);
+        }
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @param User|null $object
+     * @return int
+     */
+    public function removeUser($data, User $object=null) {
+        if (empty($object)) {
+            $object = $this->getUser($data);
+            if ($this->isError($object)) return $object;
+        }
+
+        $this->_em->remove($object);
+
+        $this->_em->flush();
+
+        return 1;
+    }
+    
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
      * @return int|null|object
      */
     public function getUser($data) {
@@ -24,6 +110,38 @@ class UserRepository extends CoreRepository {
 
         if (empty($object)) return 0;
         return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param User $object
+     * @param $data
+     * @return User|int
+     */
+    private function getUserObjectFromData(User $object, $data) {
+        if (!empty($data['login'])) $object->setLogin($data['login']);
+        if (!empty($data['firstName'])) $object->setFirstName($data['firstName']);
+        if (!empty($data['lastName'])) $object->setLastName($data['lastName']);
+        if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
+
+        if (!$this->isUserObjectConsistent($object)) return -1;
+
+        $this->_em->persist($object);
+
+        return $object;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param User $object
+     * @return bool
+     */
+    private function isUserObjectConsistent(User $object) {
+        if (empty($object->getLogin())) return false;
+        if (empty($object->getFirstName())) return false;
+        if (empty($object->getLastName())) return false;
+        if (empty($object->getSystemCreated())) return false;
+        return true;
     }
 
     /**
@@ -82,6 +200,7 @@ class UserRepository extends CoreRepository {
     public function showAppLoggedInUser($data) {
         $userData = $this->getUserDataFromObject(null, 1, $data);
         if ($this->isError($userData)) return ['result'=>$userData];
+
         $userData = $this->getImageForId($userData);
 
         return ['result'=>1, 'data'=>$userData];
