@@ -23,7 +23,7 @@ class LocationController extends CoreController {
      *
      * ### Response ###
      *
-     * {"result":1,"data":[{"id":3,"name":"banska bystrica","latitude":47.9218,"longitude":20.3649},{"id":1,"name":"bratislava","latitude":48.25,"longitude":17.48}]}
+     * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request

@@ -18,7 +18,7 @@ class InterestController extends CoreController {
     /**
      * ### Response ###
      *
-     * {"result":1,"data":[{"id":3,"name":"historia"},{"id":2,"name":"priroda"},{"id":1,"name":"auto"}]}
+     * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @return \Symfony\Component\HttpFoundation\Response
@@ -47,7 +47,7 @@ class InterestController extends CoreController {
      *
      * ### Response ###
      *
-     * {"result":1,"data":{"id":4}}
+     * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request
@@ -74,7 +74,7 @@ class InterestController extends CoreController {
     /**
      * ### Response ###
      *
-     * {"result":1}
+     * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param $interestId

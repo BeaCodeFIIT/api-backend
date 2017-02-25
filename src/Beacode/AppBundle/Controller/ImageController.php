@@ -18,7 +18,7 @@ class ImageController extends CoreController {
     /**
      * ### Response ###
      *
-     * {"result":1,"data":{"id":9}}
+     * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request

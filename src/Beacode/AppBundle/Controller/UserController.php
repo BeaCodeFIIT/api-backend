@@ -17,7 +17,7 @@ class UserController extends CoreController {
     /**
      * ### Response ###
      *
-     * {"result":1,"data":{"id":5,"firstName":"Ferko","lastName":"Babrak","image":{"id":1,"description":"profile picture","pathWithFile":"/files/images/user/5/a1.png"}}}
+     * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @return \Symfony\Component\HttpFoundation\Response
