@@ -121,6 +121,8 @@ class ExhibitRepository extends CoreRepository {
         if (!empty($data['name'])) $object->setName($data['name']);
         if (!empty($data['description'])) $object->setDescription($data['description']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
+        if (!empty($data['start'])) $object->setStart($data['start']);
+        if (!empty($data['end'])) $object->setEnd($data['end']);
 
         if (!$this->isExhibitObjectConsistent($object)) return -1;
 
@@ -156,7 +158,7 @@ class ExhibitRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1, 3, 4];
+        if ($forFunction == 1) $whichData = [1, 3, 4, 5];
         else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
@@ -171,6 +173,12 @@ class ExhibitRepository extends CoreRepository {
         }
         if (in_array(4, $whichData)) {
             $data['description'] = $object->getDescription();
+        }
+        if (in_array(5, $whichData)) {
+            $data['start'] = null;
+            if (!empty($object->getStart())) $data['start'] = $object->getStart()->format('d.m.Y H:i');
+            $data['end'] = null;
+            if (!empty($object->getEnd())) $data['end'] = $object->getEnd()->format('d.m.Y H:i');
         }
 
         return $data;
@@ -247,6 +255,8 @@ class ExhibitRepository extends CoreRepository {
      * @return array
      */
     public function saveAdminWebEventsExhibit($data) {
+        $data['start'] = new \DateTime($data['start']);
+        $data['end'] = new \DateTime($data['end']);
         $exhibitObject = $this->createIfNotExistExhibit($data);
         if ($this->isError($exhibitObject)) return ['result'=>$exhibitObject];
 

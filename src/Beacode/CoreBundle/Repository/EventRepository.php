@@ -173,8 +173,10 @@ class EventRepository extends CoreRepository {
             $data['name'] = $object->getName();
         }
         if (in_array(3, $whichData)) {
-            $data['start'] = $object->getStart()->format('d.m.Y H:i');
-            $data['end'] = $object->getEnd()->format('d.m.Y H:i');
+            $data['start'] = null;
+            if (!empty($object->getStart())) $data['start'] = $object->getStart()->format('d.m.Y H:i');
+            $data['end'] = null;
+            if (!empty($object->getEnd())) $data['end'] = $object->getEnd()->format('d.m.Y H:i');
         }
         if (in_array(4, $whichData)) {
             $data['locationId'] = $object->getLocationId();
