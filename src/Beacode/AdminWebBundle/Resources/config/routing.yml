@@ -50,3 +50,8 @@ beacode_api_admin_web_events_images_save:
     path:     /api/admin-web/events/{eventId}/images/new
     defaults: { _controller: BeacodeAdminWebBundle:Image:saveEventImage }
     methods:  [POST, OPTIONS]
+
+beacode_api_admin_web_events_exhibits_images_save:
+    path:     /api/admin-web/events/{eventId}/exhibits/{exhibitId}/images/new
+    defaults: { _controller: BeacodeAdminWebBundle:Image:saveEventsExhibitImage }
+    methods:  [POST, OPTIONS]

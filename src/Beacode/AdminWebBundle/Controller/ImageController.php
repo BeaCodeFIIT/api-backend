@@ -46,4 +46,38 @@ class ImageController extends CoreController {
 
         return $this->getSerializedResponse($retval);
     }
+
+    /**
+     * ### Response ###
+     *
+     * {"result":1,"data":{"id":9}}
+     *
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @param $eventId
+     * @param $exhibitId
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *     section="Admin Web",
+     *     description="Upload new image for exhibit.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"},
+     *         {"name"="exhibitId", "dataType"="integer", "description"="id of exhibit"}
+     *     },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *     }
+     * )
+     */
+    public function saveEventsExhibitImageAction(Request $request, $eventId, $exhibitId) {
+        $params = $this->getParams();
+        $files = $this->getPostFiles($request);
+
+        $data = ['objectId'=>$exhibitId];
+        $systemData = ['projectRoot'=>$params['projectRoot']];
+        $retval = $this->getRepo('Image')->saveAdminWebEventsExhibitImage($data, $files['image'], $systemData);
+
+        return $this->getSerializedResponse($retval);
+    }
 }

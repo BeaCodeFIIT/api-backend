@@ -258,4 +258,25 @@ class ImageRepository extends CoreRepository {
 
         return ['result'=>1, 'data'=>$imageData];
     }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @param UploadedFile $file
+     * @param $systemData
+     * @return array
+     */
+    public function saveAdminWebEventsExhibitImage($data, UploadedFile $file, $systemData) {
+        $data['objectType'] = 'exhibit';
+        $data['hash'] = uniqid();
+        $data['extension'] = $file->guessExtension();
+        $imageObject = $this->createImage($data);
+        if ($this->isError($imageObject)) return ['result'=>$imageObject];
+
+        $file->move($systemData['projectRoot'].$this->getImagePath($imageObject), $this->getImageFile($imageObject));
+
+        $imageData = $this->getImageDataFromObject($imageObject, 2);
+
+        return ['result'=>1, 'data'=>$imageData];
+    }
 }
