@@ -124,6 +124,8 @@ class EventRepository extends CoreRepository {
         if (!empty($data['description'])) $object->setDescription($data['description']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
         if (!empty($data['creatorId'])) $object->setCreatorId($data['creatorId']);
+        if (isset($data['parentId'])) $object->setParentId($data['parentId']);
+        if (isset($data['level'])) $object->setLevel($data['level']);
 
         if (!$this->isEventObjectConsistent($object)) return -1;
 
@@ -145,6 +147,8 @@ class EventRepository extends CoreRepository {
         if (empty($object->getDescription())) return false;
         if (empty($object->getSystemCreated())) return false;
         if (empty($object->getCreatorId())) return false;
+        if ((empty($object->getParentId())) && ($object->getParentId() !== 0)) return false;
+        if ((empty($object->getLevel())) && ($object->getLevel() !== 0)) return false;
         return true;
     }
 

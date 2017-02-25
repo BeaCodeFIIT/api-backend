@@ -70,6 +70,20 @@ class Event
      */
     private $creatorId;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="parent_id", type="integer")
+     */
+    private $parentId;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="level", type="integer")
+     */
+    private $level;
+
 
     /**
      * Get id
@@ -223,5 +237,29 @@ class Event
     public function getCreatorId()
     {
         return $this->creatorId;
+    }
+
+    /**
+     * Set locationId
+     *
+     * @param integer $locationId
+     *
+     * @return Event
+     */
+    public function setLocationId($locationId)
+    {
+        $this->locationId = $locationId;
+
+        return $this;
+    }
+
+    /**
+     * Get locationId
+     *
+     * @return integer
+     */
+    public function getLocationId()
+    {
+        return $this->locationId;
     }
 }
