@@ -255,8 +255,8 @@ class ExhibitRepository extends CoreRepository {
      * @return array
      */
     public function saveAdminWebEventsExhibit($data) {
-        $data['start'] = new \DateTime($data['start']);
-        $data['end'] = new \DateTime($data['end']);
+        if (!empty($data['start'])) $data['start'] = new \DateTime($data['start']);
+        if (!empty($data['end'])) $data['end'] = new \DateTime($data['end']);
         $exhibitObject = $this->createIfNotExistExhibit($data);
         if ($this->isError($exhibitObject)) return ['result'=>$exhibitObject];
 

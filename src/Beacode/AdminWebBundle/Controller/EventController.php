@@ -73,6 +73,9 @@ class EventController extends CoreController {
      *
      * {"name":"vystava lodi","start":"2016-10-05 18:00","end":"2016-10-08 18:00","locationId":3,"description":"pekne lode na more","parentId":0,"level":0}
      *
+     * event -> parentId = 0, level = 0<br>
+     * event category -> parentId = event id, level = 1
+     *
      * ### Response ###
      *
      * Try!
