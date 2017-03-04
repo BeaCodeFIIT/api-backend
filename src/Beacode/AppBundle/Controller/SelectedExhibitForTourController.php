@@ -21,6 +21,8 @@ class SelectedExhibitForTourController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -34,8 +36,8 @@ class SelectedExhibitForTourController extends CoreController {
      *     }
      * )
      */
-    public function showEventsSelectedExhibitsForTourAction($eventId) {
-        $params = $this->getParams();
+    public function showEventsSelectedExhibitsForTourAction(Request $request, $eventId) {
+        $params = $this->getParams($request);
 
         $data = ['userId'=>$params['loggedInUserId'], 'eventId'=>$eventId];
         $retval = $this->getRepo('SelectedExhibitForTour')->showAppEventsSelectedExhibitsForTour($data);
@@ -54,6 +56,7 @@ class SelectedExhibitForTourController extends CoreController {
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      * @param Request $request
+     * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -68,7 +71,7 @@ class SelectedExhibitForTourController extends CoreController {
      * )
      */
     public function saveEventsSelectedExhibitForTourAction(Request $request, $eventId) {
-        $params = $this->getParams();
+        $params = $this->getParams($request);
         $data = $this->getPostData($request);
 
         $data['userId'] = $params['loggedInUserId'];
@@ -84,6 +87,8 @@ class SelectedExhibitForTourController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @param $eventId
      * @param $selectedExhibitForTourId
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -99,8 +104,8 @@ class SelectedExhibitForTourController extends CoreController {
      *     }
      * )
      */
-    public function deleteEventsSelectedExhibitForTourAction($eventId, $selectedExhibitForTourId) {
-        $params = $this->getParams();
+    public function deleteEventsSelectedExhibitForTourAction(Request $request, $eventId, $selectedExhibitForTourId) {
+        $params = $this->getParams($request);
 
         $data = ['id'=>$selectedExhibitForTourId, 'userId'=>$params['loggedInUserId'], 'eventId'=>$eventId];
         $retval = $this->getRepo('SelectedExhibitForTour')->deleteAppEventsSelectedExhibitForTour($data);

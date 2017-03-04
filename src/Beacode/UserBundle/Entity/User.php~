@@ -162,28 +162,5 @@ class User
     {
         return $this->systemCreated;
     }
-
-    /**
-     * Set deviceId
-     *
-     * @param string $deviceId
-     *
-     * @return User
-     */
-    public function setDeviceId($deviceId)
-    {
-        $this->deviceId = $deviceId;
-
-        return $this;
-    }
-
-    /**
-     * Get deviceId
-     *
-     * @return string
-     */
-    public function getDeviceId()
-    {
-        return $this->deviceId;
-    }
 }
+

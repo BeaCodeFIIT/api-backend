@@ -33,7 +33,7 @@ class ImageController extends CoreController {
      * )
      */
     public function saveLoggedInUserImageAction(Request $request) {
-        $params = $this->getParams();
+        $params = $this->getParams($request);
         $files = $this->getPostFiles($request);
 
         $data = ['objectId'=>$params['loggedInUserId']];

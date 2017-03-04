@@ -37,7 +37,7 @@ class ImageController extends CoreController {
      * )
      */
     public function saveEventImageAction(Request $request, $eventId) {
-        $params = $this->getParams();
+        $params = $this->getParams($request);
         $files = $this->getPostFiles($request);
 
         $data = ['objectId'=>$eventId];
@@ -71,7 +71,7 @@ class ImageController extends CoreController {
      * )
      */
     public function saveEventsExhibitImageAction(Request $request, $eventId, $exhibitId) {
-        $params = $this->getParams();
+        $params = $this->getParams($request);
         $files = $this->getPostFiles($request);
 
         $data = ['objectId'=>$exhibitId];

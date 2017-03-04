@@ -11,6 +11,7 @@ namespace Beacode\AppBundle\Controller;
 
 use Beacode\CoreBundle\Controller\CoreController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends CoreController {
 
@@ -20,6 +21,7 @@ class UserController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -30,8 +32,8 @@ class UserController extends CoreController {
      *     }
      * )
      */
-    public function showLoggedInUserAction() {
-        $params = $this->getParams();
+    public function showLoggedInUserAction(Request $request) {
+        $params = $this->getParams($request);
 
         $data = ['id'=>$params['loggedInUserId']];
         $retval = $this->getRepo('User')->showAppLoggedInUser($data);

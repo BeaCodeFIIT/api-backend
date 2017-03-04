@@ -106,6 +106,8 @@ class UserRepository extends CoreRepository {
     public function getUser($data) {
         if (!empty($data['id'])) {
             $object = $this->findOneBy(['id'=>$data['id']]);
+        } else if (!empty($data['deviceId'])) {
+            $object = $this->findOneBy(['deviceId'=>$data['deviceId']]);
         }
 
         if (empty($object)) return 0;
@@ -123,6 +125,7 @@ class UserRepository extends CoreRepository {
         if (!empty($data['firstName'])) $object->setFirstName($data['firstName']);
         if (!empty($data['lastName'])) $object->setLastName($data['lastName']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
+        if (!empty($data['deviceId'])) $object->setDeviceId($data['deviceId']);
 
         if (!$this->isUserObjectConsistent($object)) return -1;
 
@@ -141,6 +144,7 @@ class UserRepository extends CoreRepository {
         if (empty($object->getFirstName())) return false;
         if (empty($object->getLastName())) return false;
         if (empty($object->getSystemCreated())) return false;
+        if (empty($object->getDeviceId())) return false;
         return true;
     }
 

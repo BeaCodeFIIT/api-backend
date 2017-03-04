@@ -11,6 +11,7 @@ namespace Beacode\AppBundle\Controller;
 
 use Beacode\CoreBundle\Controller\CoreController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
 
 class StarredEventController extends CoreController {
 
@@ -20,6 +21,7 @@ class StarredEventController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -30,8 +32,8 @@ class StarredEventController extends CoreController {
      *     }
      * )
      */
-    public function showStarredEventsAction() {
-        $params = $this->getParams();
+    public function showStarredEventsAction(Request $request) {
+        $params = $this->getParams($request);
 
         $data = ['userId'=>$params['loggedInUserId']];
         $retval = $this->getRepo('StarredEvent')->showAppStarredEvents($data);

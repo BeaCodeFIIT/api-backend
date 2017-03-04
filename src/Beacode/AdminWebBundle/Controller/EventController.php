@@ -21,6 +21,7 @@ class EventController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -31,8 +32,8 @@ class EventController extends CoreController {
      *     }
      * )
      */
-    public function showEventsAction() {
-        $params = $this->getParams();
+    public function showEventsAction(Request $request) {
+        $params = $this->getParams($request);
 
         $data = ['creatorId'=>$params['loggedInUserId']];
         $retval = $this->getRepo('Event')->showAdminWebEvents($data);
@@ -46,6 +47,8 @@ class EventController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -59,8 +62,8 @@ class EventController extends CoreController {
      *     }
      * )
      */
-    public function showEventAction($eventId) {
-        $params = $this->getParams();
+    public function showEventAction(Request $request, $eventId) {
+        $params = $this->getParams($request);
 
         $data =['id'=>$eventId, 'creatorId'=>$params['loggedInUserId']];
         $retval = $this->getRepo('Event')->showAdminWebEvent($data);
@@ -93,7 +96,7 @@ class EventController extends CoreController {
      * )
      */
     public function saveEventAction(Request $request) {
-        $params = $this->getParams();
+        $params = $this->getParams($request);
         $data = $this->getPostData($request);
 
         $data['creatorId'] = $params['loggedInUserId'];

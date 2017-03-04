@@ -52,13 +52,19 @@ class CoreController extends Controller {
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
      * @return array
      */
-    protected function getParams() {
+    protected function getParams(Request $request) {
         $params = [];
         $params['em'] = $this->getDoctrine()->getManager();
-        $params['loggedInUserId'] = 5;
         $params['projectRoot'] = $this->getParameter('project_root');
+
+        $userObject = $this->getRepo('User')->createIfNotExistUser(
+            ['login'=>uniqid('john'), 'firstName'=>'John', 'lastName'=>'Doe', 'deviceId'=>$request->headers->get('deviceId')]
+        );
+        $params['loggedInUserId'] = $userObject->getId();
+
         return $params;
     }
 

@@ -21,6 +21,7 @@ class InterestController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ApiDoc(
@@ -31,8 +32,8 @@ class InterestController extends CoreController {
      *     }
      * )
      */
-    public function showInterestsAction() {
-        $params = $this->getParams();
+    public function showInterestsAction(Request $request) {
+        $params = $this->getParams($request);
 
         $data = ['userId'=>$params['loggedInUserId']];
         $retval = $this->getRepo('Interest')->showAppInterests($data);
@@ -62,7 +63,7 @@ class InterestController extends CoreController {
      * )
      */
     public function saveInterestAction(Request $request) {
-        $params = $this->getParams();
+        $params = $this->getParams($request);
         $data = $this->getPostData($request);
 
         $data['userId'] = $params['loggedInUserId'];
@@ -77,6 +78,7 @@ class InterestController extends CoreController {
      * Try!
      *
      * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
      * @param $interestId
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -91,8 +93,8 @@ class InterestController extends CoreController {
      *     }
      * )
      */
-    public function deleteInterestAction($interestId) {
-        $params = $this->getParams();
+    public function deleteInterestAction(Request $request, $interestId) {
+        $params = $this->getParams($request);
 
         $data = ['id'=>$interestId, 'userId'=>$params['loggedInUserId']];
         $retval = $this->getRepo('Interest')->deleteAppInterest($data);
