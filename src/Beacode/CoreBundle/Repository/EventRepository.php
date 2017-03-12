@@ -241,6 +241,35 @@ class EventRepository extends CoreRepository {
         return $data;
     }
 
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    public function getBeaconsForId($data) {
+        $beaconObjectArray = $this->getRepo('Beacon')->findBy(['eventId'=>$data['id']]);
+
+        foreach ($beaconObjectArray as $beaconObject) {
+            $data['beacons'][] = $this->getRepo('Beacon')->getBeaconDataFromObject($beaconObject, 1);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return mixed
+     */
+    public function getMapForId($data) {
+        $imageObject = $this->getRepo('Image')->findOneBy(['objectId'=>$data['id'], 'objectType'=>'event-map']);
+
+        $imageData = $this->getRepo('Image')->getImageDataFromObject($imageObject, 1);
+        $data['map'] = (!$this->isError($imageData) ? $imageData : null);
+
+        return $data;
+    }
+
     //******************************************************************************************************************
     //******************************************************************************************************************
 
@@ -267,6 +296,8 @@ class EventRepository extends CoreRepository {
             $eventDataArray[$key] = $this->getLocationDataFromId($eventDataArray[$key]);
             $eventDataArray[$key] = $this->getImagesForId($eventDataArray[$key]);
             $eventDataArray[$key] = $this->getCategoriesForId($eventDataArray[$key]);
+            $eventDataArray[$key] = $this->getBeaconsForId($eventDataArray[$key]);
+            $eventDataArray[$key] = $this->getMapForId($eventDataArray[$key]);
         }
 
         return ['result'=>1, 'data'=>$eventDataArray];
