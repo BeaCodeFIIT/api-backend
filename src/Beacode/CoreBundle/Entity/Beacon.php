@@ -24,6 +24,13 @@ class Beacon
     /**
      * @var int
      *
+     * @ORM\Column(name="event_id", type="integer", nullable=true)
+     */
+    private $eventId;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="exhibit_id", type="integer", nullable=true)
      */
     private $exhibitId;
@@ -55,6 +62,20 @@ class Beacon
      * @ORM\Column(name="system_created", type="datetime")
      */
     private $systemCreated;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="coor_x", type="float", nullable=true)
+     */
+    private $coorX;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="coor_y", type="float", nullable=true)
+     */
+    private $coorY;
 
 
     /**
@@ -185,5 +206,77 @@ class Beacon
     public function getSystemCreated()
     {
         return $this->systemCreated;
+    }
+
+    /**
+     * Set eventId
+     *
+     * @param integer $eventId
+     *
+     * @return Beacon
+     */
+    public function setEventId($eventId)
+    {
+        $this->eventId = $eventId;
+
+        return $this;
+    }
+
+    /**
+     * Get eventId
+     *
+     * @return integer
+     */
+    public function getEventId()
+    {
+        return $this->eventId;
+    }
+
+    /**
+     * Set coorX
+     *
+     * @param float $coorX
+     *
+     * @return Beacon
+     */
+    public function setCoorX($coorX)
+    {
+        $this->coorX = $coorX;
+
+        return $this;
+    }
+
+    /**
+     * Get coorX
+     *
+     * @return float
+     */
+    public function getCoorX()
+    {
+        return $this->coorX;
+    }
+
+    /**
+     * Set coorY
+     *
+     * @param float $coorY
+     *
+     * @return Beacon
+     */
+    public function setCoorY($coorY)
+    {
+        $this->coorY = $coorY;
+
+        return $this;
+    }
+
+    /**
+     * Get coorY
+     *
+     * @return float
+     */
+    public function getCoorY()
+    {
+        return $this->coorY;
     }
 }

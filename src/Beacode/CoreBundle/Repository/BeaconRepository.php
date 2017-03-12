@@ -119,11 +119,14 @@ class BeaconRepository extends CoreRepository {
      * @return Beacon|int
      */
     private function getBeaconObjectFromData(Beacon $object, $data) {
+        if (array_key_exists('eventId', $data)) $object->setEventId($data['eventId']);
         if (array_key_exists('exhibitId', $data)) $object->setExhibitId($data['exhibitId']);
         if (!empty($data['UUID'])) $object->setUUID($data['UUID']);
         if (isset($data['major'])) $object->setMajor($data['major']);
         if (isset($data['minor'])) $object->setMinor($data['minor']);
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
+        if (array_key_exists('coorX', $data)) $object->setCoorX($data['coorX']);
+        if (array_key_exists('coorY', $data)) $object->setCoorY($data['coorY']);
 
         if (!$this->isBeaconObjectConsistent($object)) return -1;
 
@@ -159,7 +162,7 @@ class BeaconRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1, 2];
+        if ($forFunction == 1) $whichData = [1, 2, 3];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -169,6 +172,10 @@ class BeaconRepository extends CoreRepository {
             $data['UUID'] = $object->getUUID();
             $data['major'] = $object->getMajor();
             $data['minor'] = $object->getMinor();
+        }
+        if (in_array(3, $whichData)) {
+            $data['coorX'] = $object->getCoorX();
+            $data['coorY'] = $object->getCoorY();
         }
 
         return $data;
