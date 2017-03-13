@@ -33,6 +33,16 @@ class CoreController extends Controller {
      * @param Request $request
      * @return array
      */
+    protected function getGetData(Request $request) {
+        $data = $request->query->all();
+        return $data;
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @return array
+     */
     protected function getPostFiles(Request $request) {
         $files = $request->files->all();
         return $files;
