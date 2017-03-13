@@ -107,6 +107,8 @@ class ImageRepository extends CoreRepository {
             $object = $this->findOneBy(['id'=>$data['id']]);
         } else if ((!empty($data['objectId'])) && (!empty($data['objectType'])) && ($data['objectType'] == 'user')) {
             $object = $this->findOneBy(['objectId'=>$data['objectId'], 'objectType'=>$data['objectType']]);
+        } else if ((!empty($data['objectId'])) && (!empty($data['objectType'])) && ($data['objectType'] == 'event-map')) {
+            $object = $this->findOneBy(['objectId'=>$data['objectId'], 'objectType'=>$data['objectType']]);
         }
 
         if (empty($object)) return 0;
@@ -250,6 +252,27 @@ class ImageRepository extends CoreRepository {
         $data['hash'] = uniqid();
         $data['extension'] = $file->guessExtension();
         $imageObject = $this->createImage($data);
+        if ($this->isError($imageObject)) return ['result'=>$imageObject];
+
+        $file->move($systemData['projectRoot'].$this->getImagePath($imageObject), $this->getImageFile($imageObject));
+
+        $imageData = $this->getImageDataFromObject($imageObject, 2);
+
+        return ['result'=>1, 'data'=>$imageData];
+    }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @param UploadedFile $file
+     * @param $systemData
+     * @return array
+     */
+    public function saveAdminWebEventImageMap($data, UploadedFile $file, $systemData) {
+        $data['objectType'] = 'event-map';
+        $data['hash'] = uniqid();
+        $data['extension'] = $file->guessExtension();
+        $imageObject = $this->upsertImage($data);
         if ($this->isError($imageObject)) return ['result'=>$imageObject];
 
         $file->move($systemData['projectRoot'].$this->getImagePath($imageObject), $this->getImageFile($imageObject));

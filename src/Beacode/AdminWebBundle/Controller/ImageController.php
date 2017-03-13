@@ -16,6 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 class ImageController extends CoreController {
 
     /**
+     * ### Request ###
+     *
+     * (if map is uploaded then GET data: objectType=event-map)
+     *
      * ### Response ###
      *
      * Try!
@@ -38,11 +42,18 @@ class ImageController extends CoreController {
      */
     public function saveEventImageAction(Request $request, $eventId) {
         $params = $this->getParams($request);
+        $getData = $this->getGetData($request);
         $files = $this->getPostFiles($request);
+
+        if (empty($getData['objectType'])) $getData['objectType'] = 'event';
 
         $data = ['objectId'=>$eventId];
         $systemData = ['projectRoot'=>$params['projectRoot']];
-        $retval = $this->getRepo('Image')->saveAdminWebEventImage($data, $files['image'], $systemData);
+        if ($getData['objectType'] == 'event-map') {
+            $retval = $this->getRepo('Image')->saveAdminWebEventImageMap($data, $files['image'], $systemData);
+        } else {
+            $retval = $this->getRepo('Image')->saveAdminWebEventImage($data, $files['image'], $systemData);
+        }
 
         return $this->getSerializedResponse($retval);
     }
