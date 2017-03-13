@@ -337,6 +337,7 @@ class EventRepository extends CoreRepository {
         $eventData = $this->getLocationDataFromId($eventData);
         $eventData = $this->getImagesForId($eventData);
         $eventData = $this->getCategoriesForId($eventData);
+        $eventData = $this->getMapForId($eventData);
 
         return ['result'=>1, 'data'=>$eventData];
     }

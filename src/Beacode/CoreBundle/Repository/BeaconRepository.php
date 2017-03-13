@@ -162,7 +162,7 @@ class BeaconRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1, 2, 3];
+        if ($forFunction == 1) $whichData = [1, 2, 3, 4];
 
         $data = [];
         if (in_array(1, $whichData)) {
@@ -176,6 +176,9 @@ class BeaconRepository extends CoreRepository {
         if (in_array(3, $whichData)) {
             $data['coorX'] = $object->getCoorX();
             $data['coorY'] = $object->getCoorY();
+        }
+        if (in_array(4, $whichData)) {
+            $data['exhibitId'] = $object->getExhibitId();
         }
 
         return $data;
