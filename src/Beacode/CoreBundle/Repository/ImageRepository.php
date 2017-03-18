@@ -271,7 +271,8 @@ class ImageRepository extends CoreRepository {
     public function saveAdminWebEventImageMap($data, UploadedFile $file, $systemData) {
         $data['objectType'] = 'event-map';
         $data['hash'] = uniqid();
-        $data['extension'] = $file->guessExtension();
+//        $data['extension'] = $file->guessExtension();
+        $data['extension'] = 'svg';
         $imageObject = $this->upsertImage($data);
         if ($this->isError($imageObject)) return ['result'=>$imageObject];
 
