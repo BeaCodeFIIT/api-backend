@@ -28,7 +28,7 @@ class BeaconParser extends CoreClass {
 //            echo $key.' -> ';
 //            print_r($beaconData);
 
-            $retval = $this->getRepo('Beacon')->createIfNotExistBeacon($beaconData);
+            $retval = $this->getRepo('Beacon')->upsertBeacon($beaconData);
 //            echo 'RETVAL -> ' . ($this->getRepo('Beacon')->isError($retval) ? $retval : 1) . "\n\n";
         }
     }

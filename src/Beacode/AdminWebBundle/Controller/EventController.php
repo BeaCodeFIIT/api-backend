@@ -9,6 +9,7 @@
 namespace Beacode\AdminWebBundle\Controller;
 
 
+use Beacode\CoreBundle\Classes\BeaconSvgParser;
 use Beacode\CoreBundle\Controller\CoreController;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -101,6 +102,37 @@ class EventController extends CoreController {
 
         $data['creatorId'] = $params['loggedInUserId'];
         $retval = $this->getRepo('Event')->saveAdminWebEvent($data);
+
+        return $this->getSerializedResponse($retval);
+    }
+
+    /**
+     * ### Response ###
+     *
+     * Try!
+     *
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @param $eventId
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *     section="Admin Web",
+     *     description="Parse and save beacons from map for given event.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
+     *     },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *     }
+     * )
+     */
+    public function parseEventBeaconSvgAction(Request $request, $eventId) {
+        $params = $this->getParams($request);
+
+        $data = ['eventId'=>$eventId, 'creatorId'=>$params['loggedInUserId'], 'projectRoot'=>$params['projectRoot']];
+        $beaconSvgParserClass = new BeaconSvgParser($params);
+        $retval = $beaconSvgParserClass->processForEvent($data);
 
         return $this->getSerializedResponse($retval);
     }

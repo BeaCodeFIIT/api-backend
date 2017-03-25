@@ -30,8 +30,12 @@ class BeaconSvgParser extends BeaconParser {
         return $beaconDatas;
     }
 
-    public function processEvent($data) {
-        //todo fill pathToData
+    public function processForEvent($data) {
+        $eventData = $this->getRepo('Event')->getMapForId(['id'=>$data['eventId']]);
+        if (empty($eventData['map'])) return ['result'=>0];
+
+        $data['pathToData'] = $data['projectRoot'] . ltrim($eventData['map']['pathWithFile'], '/');
+
         $this->process($data);
 
         return ['result'=>1];
