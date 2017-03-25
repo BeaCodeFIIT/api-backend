@@ -9,18 +9,9 @@
 namespace Beacode\CoreBundle\Classes;
 
 
-class BeaconExcelParser extends CoreClass {
+class BeaconExcelParser extends BeaconParser {
 
-    public function __construct($params) {
-        parent::__construct($params);
-    }
-
-    public function process() {
-        $beaconDatas = $this->parse();
-        $this->saveBeacons($beaconDatas);
-    }
-
-    private function parse() {
+    protected function parse($data) {
         $config = '53	46.56	-5
 38	41.96	3.3
 40	36.11	0
@@ -71,18 +62,5 @@ class BeaconExcelParser extends CoreClass {
         }
 
         return $beaconDatas;
-    }
-
-    private function saveBeacons($beaconDatas) {
-        foreach ($beaconDatas as $key=>$beaconData) {
-            $beaconData['UUID'] = 'NONE';
-            $beaconData['major'] = 0;
-
-            echo $key.' -> ';
-            print_r($beaconData);
-
-            $retval = $this->getRepo('Beacon')->createIfNotExistBeacon($beaconData);
-            echo 'RETVAL -> ' . ($this->getRepo('Beacon')->isError($retval) ? $retval : 1) . "\n\n";
-        }
     }
 }

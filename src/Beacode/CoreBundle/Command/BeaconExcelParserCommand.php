@@ -13,7 +13,7 @@ use Beacode\CoreBundle\Classes\BeaconExcelParser;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BeaconParserCommand extends CoreCommand {
+class BeaconExcelParserCommand extends CoreCommand {
 
     /**
      * @author Juraj Flamik <juraj.flamik@gmail.com>
