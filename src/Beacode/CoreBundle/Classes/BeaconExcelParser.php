@@ -9,7 +9,7 @@
 namespace Beacode\CoreBundle\Classes;
 
 
-class BeaconParser extends CoreClass {
+class BeaconExcelParser extends CoreClass {
 
     public function __construct($params) {
         parent::__construct($params);

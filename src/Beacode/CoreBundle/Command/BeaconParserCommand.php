@@ -9,7 +9,7 @@
 namespace Beacode\CoreBundle\Command;
 
 
-use Beacode\CoreBundle\Classes\BeaconParser;
+use Beacode\CoreBundle\Classes\BeaconExcelParser;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,7 +19,7 @@ class BeaconParserCommand extends CoreCommand {
      * @author Juraj Flamik <juraj.flamik@gmail.com>
      */
     protected function configure() {
-        $this->setName('beacon-parser:process');
+        $this->setName('beacon-excel-parser:process');
     }
 
     /**
@@ -30,8 +30,8 @@ class BeaconParserCommand extends CoreCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
         $params = $this->getParams();
 
-        $beaconDownloaderClass = new BeaconParser($params);
-        $beaconDownloaderClass->process();
+        $beaconExcelParserClass = new BeaconExcelParser($params);
+        $beaconExcelParserClass->process();
 
         $output->writeln('DONE');
     }
