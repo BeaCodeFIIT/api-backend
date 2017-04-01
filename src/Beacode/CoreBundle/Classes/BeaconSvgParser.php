@@ -14,7 +14,7 @@ class BeaconSvgParser extends BeaconParser {
     protected function parse($data) {
         $svg = new \SimpleXMLElement($data['pathToData'], 0, true);
 
-        $beacons = $svg->xpath('//*[contains(@id, "circle")]');
+        $beacons = $svg->xpath('//*[contains(@id, "beacon")]');
         $beaconDatas = [];
         foreach ($beacons as $beacon) {
             $beaconData = [];
