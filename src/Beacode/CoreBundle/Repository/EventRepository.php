@@ -357,4 +357,20 @@ class EventRepository extends CoreRepository {
 
         return ['result'=>1, 'data'=>$eventData];
     }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function deleteAdminWebEvent($data) {
+        $eventObject = $this->getEvent($data);
+        if ($this->isError($eventObject)) return ['result'=>$eventObject];
+
+        $result = $this->removeEvent($data, $eventObject);
+
+        //todo cascade
+
+        return ['result'=>$result];
+    }
 }

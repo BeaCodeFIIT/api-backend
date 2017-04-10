@@ -13,6 +13,11 @@ beacode_api_admin_web_events_save:
     defaults: { _controller: BeacodeAdminWebBundle:Event:saveEvent }
     methods:  [POST, OPTIONS]
 
+beacode_api_admin_web_events_delete:
+    path:     /api/admin-web/events/{eventId}
+    defaults: { _controller: BeacodeAdminWebBundle:Event:deleteEvent }
+    methods:  [DELETE, OPTIONS]
+
 beacode_api_admin_web_events_parse_beacon_svg:
     path:     /api/admin-web/events/{eventId}/parse-beacon-svg
     defaults: { _controller: BeacodeAdminWebBundle:Event:parseEventBeaconSvg }

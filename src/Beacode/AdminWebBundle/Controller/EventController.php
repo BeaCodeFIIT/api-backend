@@ -118,6 +118,36 @@ class EventController extends CoreController {
      *
      * @ApiDoc(
      *     section="Admin Web",
+     *     description="Delete given event.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
+     *     },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *     }
+     * )
+     */
+    public function deleteEventAction(Request $request, $eventId) {
+        $params = $this->getParams($request);
+
+        $data =['id'=>$eventId, 'creatorId'=>$params['loggedInUserId']];
+        $retval = $this->getRepo('Event')->deleteAdminWebEvent($data);
+
+        return $this->getSerializedResponse($retval);
+    }
+
+    /**
+     * ### Response ###
+     *
+     * Try!
+     *
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param Request $request
+     * @param $eventId
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *     section="Admin Web",
      *     description="Parse and save beacons from map for given event.",
      *     requirements={
      *         {"name"="eventId", "dataType"="integer", "description"="id of event"}
