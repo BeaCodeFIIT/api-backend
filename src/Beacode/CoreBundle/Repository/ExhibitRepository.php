@@ -296,4 +296,27 @@ class ExhibitRepository extends CoreRepository {
 
         return ['result'=>$result];
     }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @param $patchArray
+     * @return array
+     */
+    public function changeAdminWebEventsExhibit($data, $patchArray) {
+        $exhibitObject = $this->getExhibit($data);
+        if ($this->isError($exhibitObject)) return ['result'=>$exhibitObject];
+
+        foreach ($patchArray as $patch) {
+            $pathArray = explode('/', $patch['path']);
+            if ($patch['op'] == 'replace') {
+                $data[$pathArray[1]] = $patch['value'];
+            }
+        }
+
+        $exhibitObject = $this->editExhibit($data, $exhibitObject);
+        if ($this->isError($exhibitObject)) return ['result'=>$exhibitObject];
+
+        return ['result'=>1];
+    }
 }

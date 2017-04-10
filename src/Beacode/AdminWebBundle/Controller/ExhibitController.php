@@ -106,4 +106,39 @@ class ExhibitController extends CoreController {
 
         return $this->getSerializedResponse($retval);
     }
+
+    /**
+     * ### Request ###
+     *
+     * [{"op":"replace","path":"/description","value":"some desc"}]
+     *
+     * ### Response ###
+     *
+     * Try!
+     *
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $eventId
+     * @param $exhibitId
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *     section="Admin Web",
+     *     description="Change given exhibit.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"},
+     *         {"name"="exhibitId", "dataType"="integer", "description"="id of exhibit"}
+     *     },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *     }
+     * )
+     */
+    public function changeEventsExhibitAction(Request $request, $eventId, $exhibitId) {
+        $patchArray = $this->getPostData($request);
+
+        $data = ['eventId'=>$eventId, 'id'=>$exhibitId];
+        $retval = $this->getRepo('Exhibit')->changeAdminWebEventsExhibit($data, $patchArray);
+
+        return $this->getSerializedResponse($retval);
+    }
 }

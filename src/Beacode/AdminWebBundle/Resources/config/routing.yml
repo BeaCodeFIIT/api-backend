@@ -40,6 +40,11 @@ beacode_api_admin_web_events_exhibits_delete:
     defaults: { _controller: BeacodeAdminWebBundle:Exhibit:deleteEventsExhibit }
     methods:  [DELETE, OPTIONS]
 
+beacode_api_admin_web_events_exhibits_change:
+    path:     /api/admin-web/events/{eventId}/exhibits/{exhibitId}
+    defaults: { _controller: BeacodeAdminWebBundle:Exhibit:changeEventsExhibit }
+    methods:  [PATCH, OPTIONS]
+
 #***********************************************************************************************************************
 
 beacode_api_admin_web_locations_show:
