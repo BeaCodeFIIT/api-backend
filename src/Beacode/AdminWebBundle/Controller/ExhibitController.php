@@ -45,9 +45,9 @@ class ExhibitController extends CoreController {
     /**
      * ### Request ###
      *
-     * {"name":"volvo","description":"pekne cierne auto","start":"2016-10-05 18:00","end":"2016-10-08 18:00"}
+     * {"name":"volvo","description":"pekne cierne auto","start":"2016-10-05 18:00","end":"2016-10-08 18:00","pushNotification":"pekna notifikacia"}
      *
-     * "start", "end" can be empty
+     * "start", "end", "pushNotification" can be empty
      *
      * ### Response ###
      *

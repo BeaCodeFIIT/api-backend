@@ -52,16 +52,23 @@ class Exhibit
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start", type="datetime")
+     * @ORM\Column(name="start", type="datetime", nullable=true)
      */
     private $start;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end", type="datetime")
+     * @ORM\Column(name="end", type="datetime", nullable=true)
      */
     private $end;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="push_notification", type="text", nullable=true)
+     */
+    private $pushNotification;
 
 
     /**
@@ -169,5 +176,76 @@ class Exhibit
     {
         return $this->systemCreated;
     }
-}
 
+    /**
+     * Set start
+     *
+     * @param \DateTime $start
+     *
+     * @return Exhibit
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * Get start
+     *
+     * @return \DateTime
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Set end
+     *
+     * @param \DateTime $end
+     *
+     * @return Exhibit
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * Get end
+     *
+     * @return \DateTime
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+
+    /**
+     * Set pushNotification
+     *
+     * @param string $pushNotification
+     *
+     * @return Exhibit
+     */
+    public function setPushNotification($pushNotification)
+    {
+        $this->pushNotification = $pushNotification;
+
+        return $this;
+    }
+
+    /**
+     * Get pushNotification
+     *
+     * @return string
+     */
+    public function getPushNotification()
+    {
+        return $this->pushNotification;
+    }
+}

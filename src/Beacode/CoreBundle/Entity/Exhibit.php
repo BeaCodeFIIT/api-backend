@@ -63,6 +63,13 @@ class Exhibit
      */
     private $end;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="push_notification", type="text", nullable=true)
+     */
+    private $pushNotification;
+
 
     /**
      * Get id
@@ -216,5 +223,29 @@ class Exhibit
     public function getEnd()
     {
         return $this->end;
+    }
+
+    /**
+     * Set pushNotification
+     *
+     * @param string $pushNotification
+     *
+     * @return Exhibit
+     */
+    public function setPushNotification($pushNotification)
+    {
+        $this->pushNotification = $pushNotification;
+
+        return $this;
+    }
+
+    /**
+     * Get pushNotification
+     *
+     * @return string
+     */
+    public function getPushNotification()
+    {
+        return $this->pushNotification;
     }
 }

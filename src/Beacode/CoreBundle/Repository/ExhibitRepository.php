@@ -141,6 +141,7 @@ class ExhibitRepository extends CoreRepository {
         if (!empty($data['systemCreated'])) $object->setSystemCreated($data['systemCreated']);
         if (!empty($data['start'])) $object->setStart($data['start']);
         if (!empty($data['end'])) $object->setEnd($data['end']);
+        if (!empty($data['pushNotification'])) $object->setPushNotification($data['pushNotification']);
 
         if (!$this->isExhibitObjectConsistent($object)) return -1;
 
@@ -176,7 +177,7 @@ class ExhibitRepository extends CoreRepository {
         }
 
         $whichData = [];
-        if ($forFunction == 1) $whichData = [1, 3, 4, 5];
+        if ($forFunction == 1) $whichData = [1, 3, 4, 5, 6];
         else if ($forFunction == 2) $whichData = [1];
 
         $data = [];
@@ -197,6 +198,9 @@ class ExhibitRepository extends CoreRepository {
             if (!empty($object->getStart())) $data['start'] = $object->getStart()->format('d.m.Y H:i');
             $data['end'] = null;
             if (!empty($object->getEnd())) $data['end'] = $object->getEnd()->format('d.m.Y H:i');
+        }
+        if (in_array(6, $whichData)) {
+            $data['pushNotification'] = $object->getPushNotification();
         }
 
         return $data;
