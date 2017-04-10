@@ -89,6 +89,24 @@ class ExhibitRepository extends CoreRepository {
             if ($this->isError($object)) return $object;
         }
 
+        //beacons set null
+        $beaconObjectArray = $this->getRepo('Beacon')->findBy(['exhibitId'=>$object->getId()]);
+        foreach ($beaconObjectArray as $beaconObject) {
+            $this->getRepo('Beacon')->editBeacon(['exhibitId'=>null], $beaconObject);
+        }
+
+        //images cascade
+        $imageObjectArray = $this->getRepo('Image')->findBy(['objectId'=>$object->getId(), 'objectType'=>'exhibit']);
+        foreach ($imageObjectArray as $imageObject) {
+            $this->getRepo('Image')->removeImage([], $imageObject);
+        }
+
+        //selectedExhibitForTours cascade
+        $selectedExhibitForTourObjectArray = $this->getRepo('SelectedExhibitForTour')->findBy(['exhibitId'=>$object->getId()]);
+        foreach ($selectedExhibitForTourObjectArray as $selectedExhibitForTourObject) {
+            $this->getRepo('SelectedExhibitForTour')->removeSelectedExhibitForTour([], $selectedExhibitForTourObject);
+        }
+
         $this->_em->remove($object);
 
         $this->_em->flush();

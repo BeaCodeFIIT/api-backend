@@ -89,6 +89,42 @@ class EventRepository extends CoreRepository {
             if ($this->isError($object)) return $object;
         }
 
+        //categories cascade
+        $categoryObjectArray = $this->findBy(['level'=>1, 'parentId'=>$object->getId()]);
+        foreach ($categoryObjectArray as $categoryObject) {
+            $this->removeEvent([], $categoryObject);
+        }
+
+        //exhibits cascade
+        $exhibitObjectArray = $this->getRepo('Exhibit')->findBy(['eventId'=>$object->getId()]);
+        foreach ($exhibitObjectArray as $exhibitObject) {
+            $this->getRepo('Exhibit')->removeExhibit([], $exhibitObject);
+        }
+
+        //beacons set null
+        $beaconObjectArray = $this->getRepo('Beacon')->findBy(['eventId'=>$object->getId()]);
+        foreach ($beaconObjectArray as $beaconObject) {
+            $this->getRepo('Beacon')->editBeacon(['eventId'=>null], $beaconObject);
+        }
+
+        //images cascade
+        $imageObjectArray = $this->getRepo('Image')->findBy(['objectId'=>$object->getId(), 'objectType'=>'event']);
+        foreach ($imageObjectArray as $imageObject) {
+            $this->getRepo('Image')->removeImage([], $imageObject);
+        }
+
+        //selectedExhibitForTours cascade
+        $selectedExhibitForTourObjectArray = $this->getRepo('SelectedExhibitForTour')->findBy(['eventId'=>$object->getId()]);
+        foreach ($selectedExhibitForTourObjectArray as $selectedExhibitForTourObject) {
+            $this->getRepo('SelectedExhibitForTour')->removeSelectedExhibitForTour([], $selectedExhibitForTourObject);
+        }
+
+        //starredEvents cascade
+        $starredEventObjectArray = $this->getRepo('StarredEvent')->findBy(['eventId'=>$object->getId()]);
+        foreach ($starredEventObjectArray as $starredEventObject) {
+            $this->getRepo('StarredEvent')->removeStarredEvent([], $starredEventObject);
+        }
+
         $this->_em->remove($object);
 
         $this->_em->flush();
@@ -367,18 +403,8 @@ class EventRepository extends CoreRepository {
         $eventObject = $this->getEvent($data);
         if ($this->isError($eventObject)) return ['result'=>$eventObject];
 
-//        $categoryObjectArray = $this->findBy(['level'=>1, 'parentId'=>$eventObject->getId()]);
-//        $categoryObjectArray[] = $eventObject;
-//        foreach ($categoryObjectArray as $categoryObject) {
-//            $exhibitObjectArray = $this->getRepo('Exhibit')->findBy(['eventId'=>$categoryObject->getId()]);
-//            foreach ($exhibitObjectArray as $exhibitObject) {
-//                $this->getRepo('Exhibit')->removeExhibit([], $exhibitObject);
-//            }
-//            $this->removeEvent([], $categoryObject);
-//        }
+        $result = $this->removeEvent($data, $eventObject);
 
-        $this->removeEvent($data, $eventObject);
-
-        return ['result'=>1];
+        return ['result'=>$result];
     }
 }
