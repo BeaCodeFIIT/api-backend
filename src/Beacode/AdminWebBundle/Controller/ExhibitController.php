@@ -77,4 +77,33 @@ class ExhibitController extends CoreController {
 
         return $this->getSerializedResponse($retval);
     }
+
+    /**
+     * ### Response ###
+     *
+     * Try!
+     *
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $eventId
+     * @param $exhibitId
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @ApiDoc(
+     *     section="Admin Web",
+     *     description="Delete given exhibit.",
+     *     requirements={
+     *         {"name"="eventId", "dataType"="integer", "description"="id of event"},
+     *         {"name"="exhibitId", "dataType"="integer", "description"="id of exhibit"}
+     *     },
+     *     statusCodes={
+     *         200="Returned when successful",
+     *     }
+     * )
+     */
+    public function deleteEventsExhibitAction($eventId, $exhibitId) {
+        $data = ['eventId'=>$eventId, 'id'=>$exhibitId];
+        $retval = $this->getRepo('Exhibit')->deleteAdminWebEventsExhibit($data);
+
+        return $this->getSerializedResponse($retval);
+    }
 }

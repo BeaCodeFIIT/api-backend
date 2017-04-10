@@ -264,4 +264,18 @@ class ExhibitRepository extends CoreRepository {
 
         return ['result'=>1, 'data'=>$exhibitData];
     }
+
+    /**
+     * @author Juraj Flamik <juraj.flamik@gmail.com>
+     * @param $data
+     * @return array
+     */
+    public function deleteAdminWebEventsExhibit($data) {
+        $exhibitObject = $this->getExhibit($data);
+        if ($this->isError($exhibitObject)) return ['result'=>$exhibitObject];
+
+        $result = $this->removeExhibit($data, $exhibitObject);
+
+        return ['result'=>$result];
+    }
 }

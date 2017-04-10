@@ -367,15 +367,17 @@ class EventRepository extends CoreRepository {
         $eventObject = $this->getEvent($data);
         if ($this->isError($eventObject)) return ['result'=>$eventObject];
 
-        $categoryObjectArray = $this->findBy(['level'=>1, 'parentId'=>$eventObject->getId()]);
-        $categoryObjectArray[] = $eventObject;
-        foreach ($categoryObjectArray as $categoryObject) {
-            $exhibitObjectArray = $this->getRepo('Exhibit')->findBy(['eventId'=>$categoryObject->getId()]);
-            foreach ($exhibitObjectArray as $exhibitObject) {
-                $this->getRepo('Exhibit')->removeExhibit([], $exhibitObject);
-            }
-            $this->removeEvent([], $categoryObject);
-        }
+//        $categoryObjectArray = $this->findBy(['level'=>1, 'parentId'=>$eventObject->getId()]);
+//        $categoryObjectArray[] = $eventObject;
+//        foreach ($categoryObjectArray as $categoryObject) {
+//            $exhibitObjectArray = $this->getRepo('Exhibit')->findBy(['eventId'=>$categoryObject->getId()]);
+//            foreach ($exhibitObjectArray as $exhibitObject) {
+//                $this->getRepo('Exhibit')->removeExhibit([], $exhibitObject);
+//            }
+//            $this->removeEvent([], $categoryObject);
+//        }
+
+        $this->removeEvent($data, $eventObject);
 
         return ['result'=>1];
     }
